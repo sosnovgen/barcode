@@ -1,6 +1,16 @@
-.lato{
-    font-weight: 100;
-    font-family: 'Lato';
-    font-size: 36px;
-
+.footer {
+    height: 3em;
+    padding: 0.8em 10em;
+    color: #EEEEEE;
+    background-color: #363636;
+}
+#contant{
+    width: 100%;
+    padding: 0px 30px;
+    margin: 0px auto;
+}
+.description{
+    margin: 22px 14px 42px 14px;
+    padding: 0 10px;
+    border-left: 4px solid #bcdeff;
 }

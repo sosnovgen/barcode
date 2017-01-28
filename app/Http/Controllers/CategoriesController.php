@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Category;
 use App\Http\Requests;
 
 class CategoriesController extends Controller
@@ -15,7 +15,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all() -> sortBy('title');
+        return view('site.categories.categories', ['categories' => $categories,]);
     }
 
     /**
