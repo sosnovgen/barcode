@@ -44,7 +44,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-folder-open" aria-hidden="true"> Категория </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{action('CategoriesController@index')}}">Показать все</a></li>
-                        <li><a href="#">Page 1-2</a></li>
+                        <li><a href="{{action('CategoriesController@create')}}">Добавить новую</a></li>
                         <li><a href="#">Page 1-3</a></li>
                     </ul>
                 </li>
@@ -70,7 +70,7 @@
 <div id="content">
     @yield('content')
 </div>
-
+<br><br>
 <div class="navbar-fixed-bottom row-fluid">
     <div class="navbar-inner">
 

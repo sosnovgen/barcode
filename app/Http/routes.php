@@ -12,8 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('site.main');
+    return view('site.front.index');
 });
 
-Route::resource('Articles','ArticlesController');
-Route::resource('Categories','CategoriesController');
+Route::resource('articles','ArticlesController');
+Route::resource('categories','CategoriesController');
+
+Route::delete('/cat/{id}',
+  [  'as' => 'cat',
+   'uses' => 'CategoriesController@destroy']);

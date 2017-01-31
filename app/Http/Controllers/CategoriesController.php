@@ -4,83 +4,135 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use Session;
+use Redirect;
+use Image;
 use App\Http\Requests;
 
 class CategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $categories = Category::all() -> sortBy('title');
-        return view('site.categories.categories', ['categories' => $categories,]);
+        $categories = Category::orderBy('title')-> paginate(12);
+        $links = str_replace('/?', '?', $categories->render());
+
+        return view('site.categories.view',
+            [
+                'categories' => $categories,
+                'links' => $links,
+            ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        $categories = Category::all() -> sortBy('title');
+        return view('site.categories.create', ['categories' => $categories,]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        if($request->hasFile('preview')) {
+            $img_root = 'images/categories';
+
+            $fileName = $request->file('preview')->getClientOriginalName();
+            $request->file('preview')->move($img_root, $fileName);
+
+            $img = Image::make('images/categories/'. $fileName);
+            $img->resize(300, 300);
+            $img->save('images/categories/'. $fileName);
+
+            $all = $request->all();
+            $all['preview'] = "/images/categories/" . $fileName;
+
+            Category::create($all);
+
+        } else {
+            $all = $request->all();
+            $all['preview']= "none";
+            Category::create($all);
+        }
+
+        $categories = Category::all() -> sortBy('title');
+
+        Session::flash('message', 'Категория сохранена!');
+        return view('site.categories.view', ['categories' => $categories,]);
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
-        //
+        $categories = Category::all() -> sortBy('title');
+        $category = Category::find($id);
+        return view('site.categories.edit',
+            [
+              'category'=>$category,
+            'categories'=>$categories,
+            ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+
+        if ($request->hasFile('preview')) {
+            $img_root = 'images/categories';
+
+            $fileName = $request->file('preview')->getClientOriginalName();
+            $request->file('preview')->move($img_root, $fileName);
+
+            $img = Image::make('images/categories/'. $fileName);
+            $img->resize(300, 300);
+            $img->save('images/categories/'. $fileName);
+
+            $all = $request->all();
+            $all['preview'] = "/images/categories/" . $fileName;
+
+            $category->update($all);
+
+        } else {
+            $all = $request->all();
+            //  $all['preview']= "none";
+            $category->update($all);
+        }
+
+        $categories = Category::all() -> sortBy('title');
+
+        Session::flash('message', 'Категория изменена!');
+        return view('site.categories.view', ['categories' => $categories,]);
+
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
+    {
+        $category=Category::find($id);
+
+        $fileName = ($category -> preview);
+        $fileName = mb_substr($fileName,1);
+        if (is_file($fileName))
+        {
+            unlink($fileName);
+        }
+
+        $category->delete();
+
+        Session::flash('message', 'Категория удалена!');
+        return Redirect::to('/categories');
+    }
+
+    public function delete($id)
     {
         //
     }
