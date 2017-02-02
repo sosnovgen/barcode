@@ -21,3 +21,5 @@ Route::resource('categories','CategoriesController');
 Route::delete('/cat/{id}',
   [  'as' => 'cat',
    'uses' => 'CategoriesController@destroy']);
+
+Route::get('/treecats','CategoriesController@treecats');

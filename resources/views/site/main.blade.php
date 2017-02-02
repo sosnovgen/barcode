@@ -35,9 +35,8 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-newspaper-o" aria-hidden="true"> Ассортимент </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Page 1-1</a></li>
-                        <li><a href="#">Page 1-2</a></li>
-                        <li><a href="#">Page 1-3</a></li>
+                        <li><a href="{{action('ArticlesController@index')}}">Показать все</a></li>
+                        <li><a href="{{action('ArticlesController@create')}}">Добавить новый</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -45,7 +44,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{action('CategoriesController@index')}}">Показать все</a></li>
                         <li><a href="{{action('CategoriesController@create')}}">Добавить новую</a></li>
-                        <li><a href="#">Page 1-3</a></li>
+                        <li><a href="{{action('CategoriesController@treecats')}}">Дерево</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

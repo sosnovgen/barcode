@@ -136,4 +136,32 @@ class CategoriesController extends Controller
     {
         //
     }
+    
+    /*-----------------------------------------------------------*/
+    public function treecats()
+    {
+        //Выбираем данные из БД
+        $result = Category::all() -> sortBy('title');
+        
+        if  (count($result) > 0){
+
+            $cats = array(); //создать новый     массив
+            //заполнить:
+            foreach($result as $cat) {
+                $cats_ID[$cat['id']][] = $cat;
+                $cats[$cat['parent_id']][$cat['id']] =  $cat;
+            }
+        }
+
+        return view('site.categories.treecats',
+            [
+                'cats' => $cats,
+                'result' => $result,
+            ]);
+        
+    }    
+    
+    
+    
+    
 }
