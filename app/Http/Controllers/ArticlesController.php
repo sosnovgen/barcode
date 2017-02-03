@@ -26,11 +26,7 @@ class ArticlesController extends Controller
             ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $categories = Category::all() -> sortBy('title'); //выбираем все категории
@@ -42,12 +38,7 @@ class ArticlesController extends Controller
             ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function store(Request $request)
     {
         if($request->hasFile('preview')) {
@@ -77,48 +68,69 @@ class ArticlesController extends Controller
         return Redirect::to('/articles');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
-        //
+        $article = Article::find($id); //выбираем овар для редактирования
+        $categories = Category::all() -> sortBy('title'); // выбираем все категории
+        $groups = Group::all(); //выбираем все группы
+        return view('site.articles.edit',
+            [
+                'article' => $article, 
+                'categories' => $categories, 
+                'groups' => $groups]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+        $article = Article::find($id);
+
+        if ($request->hasFile('preview')) {
+            $img_root = 'images/articles';
+
+            $fileName = $request->file('preview')->getClientOriginalName();
+            $request->file('preview')->move($img_root, $fileName);
+
+            $img = Image::make('images/articles/' . $fileName);
+            $img->resize(300, 300);
+            $img->save('images/articles/' . $fileName);
+
+            $all = $request->all();
+            $all['preview'] = "/images/articles/" . $fileName;
+
+            $article->update($all);
+
+        } else {
+            $all = $request->all();
+            //  $all['preview']= "placehold.it";
+            $article->update($all);
+        }
+        Session::flash('message', 'Товар изменён!');
+        return Redirect::to('/articles');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        $article = Article::find($id);
+
+        $fileName = ($article -> preview);
+        $fileName = mb_substr($fileName,1);
+        if (is_file($fileName))
+        {
+            unlink($fileName);
+        }
+
+        $article->delete();
+
+        Session::flash('message', 'Товар удалён!');
+        return Redirect::to('/articles');
     }
 }

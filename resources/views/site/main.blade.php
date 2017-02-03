@@ -48,6 +48,13 @@
                     </ul>
                 </li>
                 <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-folder-open" aria-hidden="true"> Группа </i><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{action('GroupsController@index')}}">Показать все</a></li>
+                        <li><a href="{{action('GroupsController@create')}}">Добавить новую</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Атрибуты </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Page 1-1</a></li>

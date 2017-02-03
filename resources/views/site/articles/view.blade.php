@@ -12,13 +12,13 @@
                 <thead>
                 <tr>
                     <th>id</th>
-                    <th>Картинка</th>
+                    <th class="td-1">Картинка</th>
                     <th>Название</th>
                     <th>Категория</th>
                     <th>Группа</th>
-                    <th>Описание</th>
+                    <th class="td-1">Описание</th>
                     <th>Цена</th>
-                    <th>Изменён</th>
+                    <th class="td-1">Изменён</th>
                     <th>Action</th>
 
                 </tr>
@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{$article->id}}</td>
                         @if ($article->preview == 'none')
-                            <td><i class="fa fa-picture-o" aria-hidden="true" style="font-size: 1.4em"></i></td>
+                            <td class="td-1"><i class="fa fa-picture-o" aria-hidden="true" style="font-size: 1.4em"></i></td>
                         @else
                             <?php
                             $fileName = ($article -> preview);
@@ -36,26 +36,30 @@
 
                             ?>
                             @if(is_file($fileName))
-                                <td><img width=30 height=30 src="{{asset($article->preview)}}"></td>
+                                <td class="td-1"><img width=30 height=30 src="{{asset($article->preview)}}"></td>
                             @else
-                                <td><i class="fa fa-eraser" aria-hidden="true" style="font-size: 1.4em"></i></td>
+                                <td class="td-1"><i class="fa fa-eraser" aria-hidden="true" style="font-size: 1.4em"></i></td>
                             @endif
                         @endif
 
                         <td>{{$article->title}}</td>
-                        <td>{{$article -> category -> title}}</td>
+                        @if ($customer = App\Category::where('id', $article -> category_id)->first())
+                            <td>{{$article -> category -> title}}</td>
+                        @else
+                            <td><i class="fa fa-question" aria-hidden="true" style="font-size: 1.4em; color: red; "></i></td>
+                        @endif
                         @if ($customer = App\Group::where('id', $article ->group_id)->first())
                             <td>{{$article -> group -> title}}</td>
                          @else
                             <td><i class="fa fa-question" aria-hidden="true" style="font-size: 1.4em; color: red; "></i></td>
                         @endif
-                        <td>{{$article->content}}</td>
+                        <td class="td-1">{{$article->content}}</td>
                         <td>{{$article->cena}}</td>
-                        <td>{{$article->updated_at->format('d-m-Y')}}</td>
+                        <td class="td-1">{{$article->updated_at->format('d-m-Y')}}</td>
                         <td>&nbsp;
                             <a href="{{action('ArticlesController@edit',['id'=>$article->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>
                             &nbsp;
-                            <a class="cat_link" href="{{$article->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
+                            <a class="article_link" href="{{$article->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
                         </td>
                     </tr>
                 @endforeach

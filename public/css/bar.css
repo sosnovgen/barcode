@@ -54,8 +54,11 @@ th {
 .bigtree a{
     color: #575757;
 }
-@media only screen and (max-width: 800px){
+@media only screen and (max-width: 1000px){
     .bigtree a{
         font-size: 0.8em;
+    }
+    .td-1{
+        display: none;
     }
 }

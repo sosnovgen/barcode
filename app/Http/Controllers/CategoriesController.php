@@ -55,11 +55,15 @@ class CategoriesController extends Controller
             Category::create($all);
         }
 
-        $categories = Category::all() -> sortBy('title');
+        $categories = Category::orderBy('title')-> paginate(12);
+        $links = str_replace('/?', '?', $categories->render());
 
         Session::flash('message', 'Категория сохранена!');
-        return view('site.categories.view', ['categories' => $categories,]);
-
+        return view('site.categories.view',
+            [
+                'categories' => $categories,
+                'links' => $links,
+            ]);
     }
 
 
@@ -106,10 +110,15 @@ class CategoriesController extends Controller
             $category->update($all);
         }
 
-        $categories = Category::all() -> sortBy('title');
+        $categories = Category::orderBy('title')-> paginate(12);
+        $links = str_replace('/?', '?', $categories->render());
 
         Session::flash('message', 'Категория изменена!');
-        return view('site.categories.view', ['categories' => $categories,]);
+        return view('site.categories.view',
+            [
+                'categories' => $categories,
+                'links' => $links,
+            ]);
 
 
     }

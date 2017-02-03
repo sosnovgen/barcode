@@ -17,9 +17,18 @@ Route::get('/', function () {
 
 Route::resource('articles','ArticlesController');
 Route::resource('categories','CategoriesController');
+Route::resource('groups','GroupsController');
 
 Route::delete('/cat/{id}',
   [  'as' => 'cat',
    'uses' => 'CategoriesController@destroy']);
+
+Route::delete('/group/{id}',
+    [  'as' => 'group',
+        'uses' => 'GroupsController@destroy']);
+
+Route::delete('/article/{id}',
+    [  'as' => 'article',
+     'uses' => 'ArticlesController@destroy']);
 
 Route::get('/treecats','CategoriesController@treecats');
