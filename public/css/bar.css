@@ -11,7 +11,7 @@
 }
 .description{
     margin: 22px 14px 42px 1px;
-    padding: 0px 10px 60px 20px;
+    padding: 0px 10px 80px 20px;
     border-left: 4px solid #bcdeff;
 }
 
@@ -40,6 +40,10 @@ th {
 .table-condensed>tbody>tr>td{
     padding: 5px 10px;
 }
+.table-condensed>tbody>tr>td>a{
+    padding: 5px 0px !important;
+    text-decoration: none !important;
+}
 
 .clear{clear:both;}/* clear float */
 
@@ -54,6 +58,12 @@ th {
 .bigtree a{
     color: #575757;
 }
+.cat-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 @media only screen and (max-width: 1000px){
     .bigtree a{
         font-size: 0.8em;
@@ -61,4 +71,14 @@ th {
     .td-1{
         display: none;
     }
+}
+.cat-select-over{
+    position: relative;
+    height: 4em;
+}
+.cat-select{
+    position: absolute;
+    top: 0;
+    left: 0;
+
 }

@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    protected $fillable = ['title', 'preview', 'content', 'category_id', 'group_id','cena'];
+    protected $fillable = ['title','barcode', 'preview', 'content', 'category_id', 'group_id','cena_out', 'cena_in'];
     protected $attributes = array (
         'group_id' => '0',
-        'cena' => 0,
+        'cena_out' => 0,
+        'cena_in' => 0,
     );
     
     public function category()

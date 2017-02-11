@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-md-4">
                             <label for="parent_id">Родитель</label>
-                            <select name="parent_id" class="form-control" onfocus='this.size=8;' onchange='this.size=1;' onblur='this.size=1;'>
+                            <select name="parent_id" class="form-control" onfocus='this.size=12;' onchange='this.size=1;' onblur='this.size=1;'>
                                 <option value="-211">root</option>
                                 @foreach($categories as $category)
                                     <option value="{{$category->id}}">{{$category->title}}</option>

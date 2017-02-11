@@ -31,4 +31,6 @@ Route::delete('/article/{id}',
     [  'as' => 'article',
      'uses' => 'ArticlesController@destroy']);
 
+Route::get('articlesort/{id}','ArticlesController@indexid');
+
 Route::get('/treecats','CategoriesController@treecats');

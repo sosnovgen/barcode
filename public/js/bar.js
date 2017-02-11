@@ -86,7 +86,61 @@ $(document).ready(function () {
             }
         });
     })
-
-
     
+    /*-------------  tree  ---------------*/
+    $('.trees').click(function(event) {
+        event.preventDefault();
+
+        var cat = $(this).attr("href"); //Получить текст ссылки
+        $('select').val(cat);
+        /*alert(cat);*/
+        $('#treeModal').modal('hide');
+    });
+
+
+    //-------- Modal Barcode view.blade ---------------
+    $('td > .bar_link').click(function (event) {
+        event.preventDefault();
+        var id = $(this).data("id"); //Получить id строки.
+        var href = $(this).text(); //Получить текст ссылки.
+        
+        $('#bar1').val(href); //Ввести штрих-код в input 
+        var f = $('#form_bar').attr("action"); //получить адресную строку
+        var str = f.substr(0, f.length - 2);   //обрезать параметр из шаблона(id)
+
+        str = str + id;  // сформировать реальный адрес.
+        $('#form_bar').attr("action", str); //вставить его в модальную форму.
+    })
+
+
+
+    /*-------------------------------------*/
+    //при появлении модального окна выделить поле ввода input.
+    $('#barcode').on('shown.bs.modal', function() {
+        $('#bar1').select();
+    })
+    $('#barModal').on('shown.bs.modal', function() {
+        $('#bar2').select();
+    })
+
+
+
+    /*-------------  Modal Barcode create.blade  ---------------*/
+    $('#bar2').keyup(function (e) {
+        if (e.keyCode == 13) {
+            var f = $('#bar2').val();
+            $("input[name='barcode']").val(f);
+            $('#barModal').modal('hide');
+
+        }
+    })
+     /*-------------------- key press button "Close"  -------------------------*/
+    $('#bmw1').click(function (event) {
+        event.preventDefault();
+
+        var f = $('#bar2').val();
+        $("input[name='barcode']").val(f);
+
+    })
+
 })

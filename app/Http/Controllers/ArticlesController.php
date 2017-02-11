@@ -19,9 +19,31 @@ class ArticlesController extends Controller
         $articles = Article::orderBy('title')-> paginate(12);
         $links = str_replace('/?', '?', $articles->render());
 
+        $categories = Category::all()-> sortBy('title');
+        $sort = 0;
+
         return view('site.articles.view',
             [
                 'articles' => $articles,
+                'categories' => $categories,
+                'sort' => $sort,
+                'links' => $links,
+            ]);
+    }
+
+    public function indexid($id)
+    {
+        $articles = Article::where('category_id','=',$id) -> orderBy('title') -> paginate(8);
+        $links = str_replace('/?', '?', $articles->render());
+        $categories = Category::all()-> sortBy('title');;
+        $groups = Group::all();
+        $sort = 1;
+
+        return view('site.articles.view',
+            [
+                'articles' => $articles,
+                'categories' => $categories,
+                'sort' => $sort,
                 'links' => $links,
             ]);
     }
@@ -133,4 +155,13 @@ class ArticlesController extends Controller
         Session::flash('message', 'Товар удалён!');
         return Redirect::to('/articles');
     }
+
+    public function barcode($id)
+    {
+        $article = Article::find($id);
+        
+    }
+
+
+
 }
