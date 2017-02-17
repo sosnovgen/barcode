@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label >Штрих-код</label>
+                        <label ><a href="#barModal2" data-toggle ="modal">Штрих-код</a></label>
                         <input type="text" name="barcode" value="{{$article->barcode}}" class="form-control"><br>
                     </div>
 
@@ -88,8 +88,7 @@
 
         <div class="col-md-4">
             <div class="description small">
-                <p>* Здесь можно добавить/отредактировать товар.</p>
-                <p>* Сначала создать категорию, затем добавить товар.</p>
+                <p>* Здесь можно отредактировать товар.</p>
                 <p>* Поле "Группа" - не обязательна к заполнению.</p>
                 <p>* Размер картинки примерно 300Х300.</p>
                 <p>* Перенос строки в описании: "Shift + Enter". </p>
@@ -164,6 +163,37 @@
 
         </div>
     </div>
+
+
+    <!-------------------- Modal -------------------->
+    <div class="modal fade" id="barModal2" role="dialog">
+        <div class="modal-dialog modal-sm">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Редактировать</h4>
+                </div>
+
+                <div class="modal-body">
+                    <!------------------ Content ------------------------->
+
+                    <label ><a href="#barModal" data-toggle ="modal">Штрих-код</a></label>
+                    <input type="text" name="barcode" id="bar3"
+                           class="form-control" style="width: 65%"/>
+
+                    <br>
+                    <!------------------ /Content ------------------------->
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="bmw2" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 @stop

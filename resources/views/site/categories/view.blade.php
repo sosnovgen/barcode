@@ -49,7 +49,7 @@
                                 <td>root</td>
                             @endif
 
-                        <td class="td-1">{{substr($category -> body, 0,100). "..."}}</td>
+                        <td class="td-1">{{str_limit($category->body,45, ' ...')}}</td>
                         <td class="td-1" style="width: 8em">{{$category->updated_at->format('d-m-Y')}}</td>
                         <td>&nbsp;
                              <a href="{{action('CategoriesController@edit',['id'=>$category->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>

@@ -22,5 +22,10 @@ class Article extends Model
     {
         return $this->belongsTo('App\Group', 'group_id');
     }
+
+    public function atribute()
+    {
+        return $this->hasMany('App\Atribute');
+    }
     
 }

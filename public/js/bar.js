@@ -97,6 +97,7 @@ $(document).ready(function () {
         $('#treeModal').modal('hide');
     });
 
+    
 
     //-------- Modal Barcode view.blade ---------------
     $('td > .bar_link').click(function (event) {
@@ -112,18 +113,19 @@ $(document).ready(function () {
         $('#form_bar').attr("action", str); //вставить его в модальную форму.
     })
 
-
-
     /*-------------------------------------*/
     //при появлении модального окна выделить поле ввода input.
     $('#barcode').on('shown.bs.modal', function() {
         $('#bar1').select();
     })
-    $('#barModal').on('shown.bs.modal', function() {
-        $('#bar2').select();
+    $('#barModal2').on('shown.bs.modal', function() {
+        var f = $("input[name='barcode']").val();
+        $('#bar3').val(f);
+        $('#bar3').select();
     })
 
 
+    
 
     /*-------------  Modal Barcode create.blade  ---------------*/
     $('#bar2').keyup(function (e) {
@@ -139,6 +141,26 @@ $(document).ready(function () {
         event.preventDefault();
 
         var f = $('#bar2').val();
+        $("input[name='barcode']").val(f);
+
+    })
+
+
+
+    /*-------------  Modal Barcode edit.blade  ---------------*/
+    $('#bar3').keyup(function (e) {
+        if (e.keyCode == 13) {
+            var f = $('#bar3').val();
+            $("input[name='barcode']").val(f);
+            $('#barModal2').modal('hide');
+
+        }
+    })
+    /*-------------------- key press button "Close"  -------------------------*/
+    $('#bmw2').click(function (event) {
+        event.preventDefault();
+
+        var f = $('#bar3').val();
         $("input[name='barcode']").val(f);
 
     })

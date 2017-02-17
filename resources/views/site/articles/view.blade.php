@@ -98,11 +98,13 @@
                             @else
                             <td><i class="fa fa-question" aria-hidden="true" style="font-size: 1.4em; color: red; "></i></td>
                         @endif
-                        <td class="td-1">{{substr($article->content,0,100). "..."}}</td>
+                        <td class="td-1">{{str_limit($article->content,45,' ...')}}</td>
                         <td>{{$article->cena_in}}</td>
                         <td>{{$article->cena_out}}</td>
                         <td class="td-1">{{$article->updated_at->format('d-m-Y')}}</td>
-                        <td class="bmw">&nbsp;
+                        <td class="bmw">
+                            <a href="{{action('ArticlesController@edit',['id'=>$article->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>
+                            &nbsp;
                             <a href="{{action('ArticlesController@edit',['id'=>$article->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>
                             &nbsp;
                             <a class="article_link" href="{{$article->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
