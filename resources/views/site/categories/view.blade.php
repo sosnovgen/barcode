@@ -26,7 +26,13 @@
                      <tr>
                         <td>{{$category->id}}</td>
                          @if ($category->preview == 'none')
-                             <td class="td-1"><i class="fa fa-picture-o" aria-hidden="true" style="font-size: 1.4em"></i></td>
+                             <td class="td-1"><i class="fa fa-ban" aria-hidden="true"
+                                                 style=
+                                                 "font-size: 1.4em;
+                                                color:#b92c28;
+                                                padding: 2px 0 0 8px;
+                                                "
+                                 ></i></td>
                          @else
                              <?php
                              $fileName = ($category -> preview);

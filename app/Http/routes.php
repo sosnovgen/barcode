@@ -18,6 +18,10 @@ Route::get('/', function () {
 Route::resource('articles','ArticlesController');
 Route::resource('categories','CategoriesController');
 Route::resource('groups','GroupsController');
+Route::resource('atributes','AtributesController');
+
+Route::get('addatribute/{id}/{id2}','AtributesController@add'); //добавить атрибут
+Route::get('addatribute2/{id}/{id2}','AtributesController@add2'); //добавить атрибут
 
 Route::delete('/cat/{id}',
   [  'as' => 'cat',

@@ -64,14 +64,22 @@ th {
     left: 0;
 }
 
-@media only screen and (max-width: 1000px){
+@media only screen and (max-width: 1200px){
     .bigtree a{
         font-size: 0.8em;
     }
     .td-1{
         display: none;
     }
+    .td-2{
+     color: #005000;
+     white-space: normal !important;
+     display: block;
+     width: 200px;
+
+    }
 }
+
 .cat-select-over{
     position: relative;
     height: 4em;
@@ -80,5 +88,9 @@ th {
     position: absolute;
     top: 0;
     left: 0;
+}
 
+.capton01{
+    display: flex;
+    flex-flow: column wrap;
 }

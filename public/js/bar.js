@@ -156,6 +156,7 @@ $(document).ready(function () {
 
         }
     })
+
     /*-------------------- key press button "Close"  -------------------------*/
     $('#bmw2').click(function (event) {
         event.preventDefault();
@@ -164,5 +165,9 @@ $(document).ready(function () {
         $("input[name='barcode']").val(f);
 
     })
+
+    
+
+ 
 
 })

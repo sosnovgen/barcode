@@ -3,6 +3,8 @@
     <div class="container">
         <button type="button" class="close" onclick="location.href='{{asset('/')}}'">&times;</button>
 
+        <input type="hidden" name="width" id="_size">
+
         <div class="row" >
             <div class="col-md-9">
                 <h3 class="text-center">Ассортимент</h3>
@@ -41,7 +43,7 @@
                 <tr>
                     <th>id</th>
                     <th class="td-1">Картинка</th>
-                    <th>Штрих-код</th>
+                    <th>Ш-код</th>
                     <th>Название</th>
                     <th>Категория</th>
                     <th>Группа</th>
@@ -87,7 +89,10 @@
                             @else
                                 <a href="#barcode" class="bar_link" data-toggle ="modal" data-id ="{{$article->id}}" >{{$article->barcode}}</a></td>
                             @endif
-                        <td>{{$article->title}}</td>
+
+
+                        <td class="td-2">{{$article->title}}</td>
+
                         @if ($customer = App\Category::where('id', $article -> category_id)->first())
                             <td>{{$article -> category -> title}}</td>
                         @else
@@ -102,11 +107,11 @@
                         <td>{{$article->cena_in}}</td>
                         <td>{{$article->cena_out}}</td>
                         <td class="td-1">{{$article->updated_at->format('d-m-Y')}}</td>
-                        <td class="bmw">
+                        <td>
+                            <a href="{{action('AtributesController@add',['id'=>$article->id, 'id2'=>$article->category_id])}}"><i class="fa fa-font" aria-hidden="true" style="font-size: 1.2em; "></i></a>
+
                             <a href="{{action('ArticlesController@edit',['id'=>$article->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>
-                            &nbsp;
-                            <a href="{{action('ArticlesController@edit',['id'=>$article->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>
-                            &nbsp;
+
                             <a class="article_link" href="{{$article->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
                         </td>
                     </tr>
@@ -148,9 +153,15 @@
             <!------------------ Content ------------------------->
 
                         <label >Штрих-код</label>
-                        <input type="text" name="barcode" id="bar1" value="{{$article->barcode}}"
-                               class="form-control" style="width: 65%"
-                               onkeypress="if(event.keyCode==13)validForm(this.form)">
+
+                        <input type="text" name="barcode" id="bar1" value="
+                        <?php
+                            if( isset($article)){
+                                echo $article->barcode;
+                            }
+                        ?>"
+                             class="form-control" style="width: 65%"
+                             onkeypress="if(event.keyCode==13)validForm(this.form)">
 
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
 
