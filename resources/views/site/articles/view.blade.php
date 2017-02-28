@@ -51,7 +51,7 @@
                     <th>Цена_пок.</th>
                     <th>Цена_прод.</th>
                     <th class="td-1">Изменён</th>
-                    <th>Action</th>
+                    <th>Действие</th>
 
                 </tr>
                 </thead>
@@ -106,12 +106,13 @@
                         <td class="td-1">{{str_limit($article->content,45,' ...')}}</td>
                         <td>{{$article->cena_in}}</td>
                         <td>{{$article->cena_out}}</td>
-                        <td class="td-1">{{$article->updated_at->format('d-m-Y')}}</td>
-                        <td>
-                            <a href="{{action('AtributesController@add',['id'=>$article->id, 'id2'=>$article->category_id])}}"><i class="fa fa-font" aria-hidden="true" style="font-size: 1.2em; "></i></a>
-
+                        <td class="td-1" style="width: 8em;">{{$article->updated_at->format('d-m-Y')}}</td>
+                        <td >
+                            &nbsp;
+                            <a href="{{action('AtributesController@add',['id'=>$article->id])}}"><i class="fa fa-font" aria-hidden="true" style="font-size: 1.2em; "></i></a>
+                            &nbsp;
                             <a href="{{action('ArticlesController@edit',['id'=>$article->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>
-
+                            &nbsp;
                             <a class="article_link" href="{{$article->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
                         </td>
                     </tr>
@@ -131,6 +132,7 @@
             </div>
         @endif
     </div>
+    <br>
 
     <!------------- Modal ----------------->
     <div class="modal fade" id="barcode" role="dialog">

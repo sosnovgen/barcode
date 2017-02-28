@@ -34,9 +34,9 @@ class AtributesController extends Controller
     }
 
     /*------------- Добавить атрибут  -------------------*/
-    public function add($id,$id2) // id-товар, id2-категория.
+    public function add($id) // id-товар
     {
-        $article = Article::where('id', $id)->first(); //для заголовка
+        $article = Article::find($id); //для заголовка
                 
         $atributes = Atribute::where('article_id', $id)-> paginate(12);
         $links = str_replace('/?', '?', $atributes->render());
@@ -56,30 +56,25 @@ class AtributesController extends Controller
         return view('site.atributes.create',
             [
                 'id' => $id,
-                'id2' => $id2,
                 'article' => $article,
             ]);
         }
     }
 
     /*------------- Добавить атрибут  -------------------*/
-    public function add2($id,$id2) // id-товар, id2-категория.
+    public function add2($id) // id-товар
     {
-        $article = Article::where('id', $id)->first(); //для заголовка
         
         return view('site.atributes.create',
             [
                 'id' => $id,
-                'id2' => $id2,
-                'article' => $article,
             ]);
     } 
-
     
     
     public function create($id)
     {
-        return view('site.atributes.create');
+        //
     }
 
     /**
@@ -88,30 +83,61 @@ class AtributesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    
+    
     public function store(Request $request)
     {
         $all = $request->all();
         Atribute::create($all);
+
         $id = $all['article_id']; //id товара.
-        $article = Article::where('id', $id)->first();
-
-        $atributes = Atribute::where('article_id', $id)->paginate(12);
-        $links = str_replace('/?', '?', $atributes->render());
-
         Session::flash('message', 'Атрибут сохранен!');
-        return view('site.atributes.view',
+
+        return redirect()->action('AtributesController@add',
+            [
+                'id' => $id,
+            ]);
+
+        /*return view('site.atributes.view',
             [
                 'article' => $article,
                 'atributes' => $atributes,
                 'links' => $links,
+            ]);*/
+    }
+    
+    /*-------- Сохранить как шаблон.  --------------*/
+    public function tample($id) //в id - код товара.
+    {
+        //Удаление старого шаблона.
+        $article = Article::find($id); //получить этот товар.
+        //удалить записи по условию: код товара "-377" и текущую категорию
+        $attr =  Atribute::where(['article_id' => '-377', 'category_id' => $article -> category_id ])->delete();
+
+
+        //Сохранение нового шаблона.
+        $attrs = Atribute::where('article_id', $id)-> get();
+        foreach ($attrs as $row)
+        {
+            $model = new Atribute();
+
+            $model->article_id = '-377'; //id товара - признак шаблона.
+            $model->category_id = $row->category_id;
+            $model->key = $row->key;
+            $model->value = $row->value;
+            $model->save();
+        }
+
+        Session::flash('message', 'Шаблон сохранен!');
+        return redirect()->action('AtributesController@add',
+            [
+                'id' => $id,
             ]);
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
+    
+    
+    
     public function show($id)
     {
         //
@@ -125,29 +151,37 @@ class AtributesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $atribute = Atribute::find($id);
+        return view('site.atributes.edit',
+            [
+                'atribute' => $atribute,
+                
+            ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    
+    public function update(Request $request, $id) //id-атрибута.
     {
-        //
-    }
+        $atribute = Atribute::find($id);
+        $all = $request->all();
+        $atribute -> update($all);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        $id = $atribute ->article_id; //id товара.
+
+
+        Session::flash('message', 'Атрибут изменён!');
+        return redirect()->action('AtributesController@add',
+            [
+                'id' => $id,
+            ]);
+    }
+    
     public function destroy($id)
     {
-        //
+        $atribute = Atribute::find($id);
+        $atribute -> delete();
+
+        Session::flash('message', 'Атрибут удалён!');
+        return redirect()->back();
     }
 }

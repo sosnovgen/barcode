@@ -20,9 +20,11 @@ Route::resource('categories','CategoriesController');
 Route::resource('groups','GroupsController');
 Route::resource('atributes','AtributesController');
 
-Route::get('addatribute/{id}/{id2}','AtributesController@add'); //добавить атрибут
-Route::get('addatribute2/{id}/{id2}','AtributesController@add2'); //добавить атрибут
+Route::get('addatribute/{id}','AtributesController@add'); //добавить атрибут
+Route::get('addatribute2/{id}','AtributesController@add2'); //добавить атрибут
+Route::get('tample/{id}','AtributesController@tample'); //сохранить как шаблон.
 
+/*-----------  delete ----------------------------------*/
 Route::delete('/cat/{id}',
   [  'as' => 'cat',
    'uses' => 'CategoriesController@destroy']);
@@ -35,6 +37,11 @@ Route::delete('/article/{id}',
     [  'as' => 'article',
      'uses' => 'ArticlesController@destroy']);
 
+Route::delete('atribute/{id}',
+    [  'as' => 'atribute',
+     'uses' => 'AtributeController@destroy']);
+
+/*--------------------------------------------*/
 Route::get('articlesort/{id}','ArticlesController@indexid');
 
 Route::get('/treecats','CategoriesController@treecats');

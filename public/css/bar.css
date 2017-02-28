@@ -94,3 +94,10 @@ th {
     display: flex;
     flex-flow: column wrap;
 }
+
+.butt2 {
+
+    background-color:transparent;
+    border:none;
+    color: #5499d5;
+}

@@ -86,7 +86,41 @@ $(document).ready(function () {
             }
         });
     })
-    
+
+    //-------- Удаление атрибута ---------------
+    $('td > #atribute_link').click(function (event) {
+        event.preventDefault();
+
+        var id = $(this).attr("href"); //Получить текст ссылки из таб. "atribute"
+        var href = 'atribute/' + id; //Сформировать ссылку для AJAX
+        var _parent = $(this).parent().parent();
+        var token = $('#token-keeper4').data("token"); //Строка таблицы <TR>
+
+        alert(href);
+
+        confirm_var = confirm('Удалить атрибут?'); //запрашиваем подтверждение на удаление
+        if (!confirm_var) {
+            return false;
+        }
+
+        $.ajax({
+            url: href, //url куда мы передаем delete запрос
+            method: "POST",
+            data: {'_token': token, '_method': "DELETE"}, //не забываем передавать токен, или будет ошибка.
+
+            success: function () {
+                _parent.remove(); // удаляем строчку tr из таблицы
+                console.log('Успешно! (delete)');
+            },
+            error: function () {
+                console.log('Не то!');
+            }
+        });
+    })
+
+
+
+
     /*-------------  tree  ---------------*/
     $('.trees').click(function(event) {
         event.preventDefault();
@@ -166,8 +200,6 @@ $(document).ready(function () {
 
     })
 
-    
 
- 
 
 })

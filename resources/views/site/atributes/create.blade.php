@@ -12,7 +12,8 @@
           method="POST" action="{{action('AtributesController@store')}}" enctype="multipart/form-data">
     <br>
     <div class="row">
-        <span style="font-size: 1.2em"; >Атрибут товара "{{str_limit($article->title,45,' ...').' (id='. $article->id.')'}}"</span>
+        <?php $article = App\Article::where('id', $id)->first(); ?>
+        <span style="font-size: 1.2em"; >Атрибут товара "<span style="color:#009f00;">{{str_limit($article->title,45,' ...').' (id='. $article->id.')'}}</span>"</span>
     </div>
 
     <br>
@@ -28,6 +29,10 @@
         </div>
 
         <input type="hidden" name="article_id" value="{{$id}}">
+        <?php
+            $article = App\Article::where('id', $id)->first();
+            $id2 = $article -> category_id;
+        ?>
         <input type="hidden" name="category_id" value="{{$id2}}">
 
     </div>
