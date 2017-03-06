@@ -41,8 +41,7 @@
         <div class="form-group">
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="submit" value="Сохранить" class="btn btn-primary load-bt">
-            <input type="button" value="Загрузить шаблон" style="margin-left: 2em;" class="btn btn-default load-bt">
-
+            <a href="{{action('AtributesController@load',['id' => $id])}}" class="btn btn-info" style="margin-left: 2em;" role="button">Загрузить шаблон</a>
         </div>
     </div>
 

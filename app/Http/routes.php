@@ -11,18 +11,19 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('site.front.index');
-});
+});*/
 
 Route::resource('articles','ArticlesController');
 Route::resource('categories','CategoriesController');
 Route::resource('groups','GroupsController');
 Route::resource('atributes','AtributesController');
 
-Route::get('addatribute/{id}','AtributesController@add'); //добавить атрибут
+Route::get('addatribute/{id}','AtributesController@add');   //добавить атрибут
 Route::get('addatribute2/{id}','AtributesController@add2'); //добавить атрибут
-Route::get('tample/{id}','AtributesController@tample'); //сохранить как шаблон.
+Route::get('tample/{id}','AtributesController@tample');     //сохранить как шаблон.
+Route::get('load/{id}','AtributesController@load');         //загрузить шаблон.
 
 /*-----------  delete ----------------------------------*/
 Route::delete('/cat/{id}',
@@ -45,3 +46,7 @@ Route::delete('atribute/{id}',
 Route::get('articlesort/{id}','ArticlesController@indexid');
 
 Route::get('/treecats','CategoriesController@treecats');
+
+Route::auth();
+
+Route::get('/', 'HomeController@index');

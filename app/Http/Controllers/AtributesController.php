@@ -134,7 +134,39 @@ class AtributesController extends Controller
                 'id' => $id,
             ]);
     }
-    
+
+    /*-----------------------------------------------------------*/
+    public function load($id) //в id - код товара.
+    {
+        //Удалить все атрибуты.
+        $article = Article::find($id); //получить этот товар.
+        //удалить записи по условию: код товара и текущую категорию
+        $attr =  Atribute::where(['article_id' => $id, 'category_id' => $article -> category_id ])->delete();
+
+        //Загрузить новый шаблон.
+        $attrs = Atribute::where(['article_id' => '-377', 'category_id' => $article ->category_id ])->get();
+
+        foreach ($attrs as $row) //сохранить в БД с id товара.
+        {
+            $model = new Atribute();
+
+            $model->article_id = $id; //id товара
+            $model->category_id = $row->category_id;
+            $model->key = $row->key;
+            $model->value = $row->value;
+            $model->save();
+        }
+
+        if (count($attrs)>0)
+        { Session::flash('message', 'Шаблон загружен!');}
+        else
+        {Session::flash('message', 'Шаблон не найден!');}
+
+        return redirect()->action('AtributesController@add',
+            [
+                'id' => $id,
+            ]);
+    }
     
     
     
