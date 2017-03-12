@@ -5,11 +5,11 @@
             <div class="col-md-8">
                 <button type="button" class="close" onclick="location.href='{{asset('/')}}'">&times;</button>
                 <div class="row capture">
-                    <h3 class="text-center">Группы</h3>
+                    <h3 class="text-center">Т.Точки</h3>
                 </div>
                 <br>
                 <div class="table-responsive">
-                    <table class="table table-condensed table-striped" id="token-keeper3" data-token="{{ csrf_token() }}">
+                    <table class="table table-condensed table-striped" id="token-keeper4" data-token="{{ csrf_token() }}">
                         <thead>
                         <tr>
                             <th>id</th>
@@ -20,14 +20,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($groups as $group)
+                        @foreach ($sklads as $sklad)
                             <tr>
-                                <td>{{$group->id}}</td>
-                                <td>{{$group->title}}</td>
-                                <td>{{$group->updated_at->format('d-m-Y')}}</td>
+                                <td>{{$sklad->id}}</td>
+                                <td>{{$sklad->title}}</td>
+                                <td>{{$sklad->updated_at->format('d-m-Y')}}</td>
                                 <td>&nbsp;
 
-                                    <a class="group_link" href="{{$group->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
+                                    <a class="sklad_link" href="{{$sklad->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -46,8 +46,8 @@
             <div class="col-md-4">
                 <br>
                 <div class="description small">
-                    <p>* Здесь можно добавить ли отредактировать группу товара.</p>
-                    <p>* Группа позволяет сортировать товар по заданному признаку (например: "Новинка", "Распродажа" и т.п.)</p>
+                    <p>* Здесь можно добавить ли отредактировать Ваши торговые точки (склады).</p>
+                    <p>* Осторожно! Удаление торговой точки или изменение её имени может привести к ошибке.</p>
 
                 </div>
             </div>
@@ -68,13 +68,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Создать группу</h4>
+                    <h4 class="modal-title">Создать склад</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form method="POST" action="{{action('GroupsController@store')}}" class="form-group" enctype="multipart/form-data"/>
+                        <form method="POST" action="{{action('SkladController@store')}}" class="form-group" enctype="multipart/form-data"/>
                         <div class="col-md-4">
-                            <label for="ex5">Название Группы</label>
+                            <label for="ex5">Название склада</label>
                             <input class="form-control" name="title" id="ex5" type="text">
                             <br>
 

@@ -20,7 +20,7 @@ class ArticlesController extends Controller
         $links = str_replace('/?', '?', $articles->render());
 
         $categories = Category::all()-> sortBy('title');
-        $sort = 0;
+        $sort = 0; //сортировка по категории отключена
 
         return view('site.articles.view',
             [
@@ -162,6 +162,24 @@ class ArticlesController extends Controller
         
     }
 
+    public function find(Request $request)
+    {
+        $name = $request->input('q22');
+        $articles = Article::Where('title', 'like', $name . '%')-> orderBy('title') -> paginate(8);
+        $links = str_replace('/?', '?', $articles->render());
 
+        $categories = Category::all()-> sortBy('title');
+        $sort = 0; //сортировка по категории отключена
+
+        return view('site.articles.view',
+            [
+                'articles' => $articles,
+                'categories' => $categories,
+                'sort' => $sort,
+                'links' => $links,
+                
+            ]);
+
+    }
 
 }

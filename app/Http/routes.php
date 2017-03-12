@@ -19,6 +19,8 @@ Route::resource('articles','ArticlesController');
 Route::resource('categories','CategoriesController');
 Route::resource('groups','GroupsController');
 Route::resource('atributes','AtributesController');
+Route::resource('sklads','SkladController');
+Route::resource('contragents','ContragentsController');
 
 Route::get('addatribute/{id}','AtributesController@add');   //добавить атрибут
 Route::get('addatribute2/{id}','AtributesController@add2'); //добавить атрибут
@@ -42,6 +44,11 @@ Route::delete('atribute/{id}',
     [  'as' => 'atribute',
      'uses' => 'AtributeController@destroy']);
 
+Route::delete('sklad/{id}',
+    [  'as' => 'sklad',
+        'uses' => 'SkladController@destroy']);
+
+
 /*--------------------------------------------*/
 Route::get('articlesort/{id}','ArticlesController@indexid');
 
@@ -50,3 +57,5 @@ Route::get('/treecats','CategoriesController@treecats');
 Route::auth();
 
 Route::get('/', 'HomeController@index');
+
+Route::post('/find', 'ArticlesController@find');

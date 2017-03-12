@@ -6,7 +6,14 @@
         <div class="row capture">
             <h3 class="text-center">Категории</h3>
         </div>
-<br>
+        <div class="row" style="margin-bottom: 1em;">
+            <div class="col-md-12">
+
+                <a class="pull-right" href="{{action('CategoriesController@create')}}" ><i class="fa fa-plus" aria-hidden="true" style="font-size: 1.2em;"> Добавить новую </i></a>
+                <a class="pull-right" href="{{action('CategoriesController@treecats')}}"><i class="fa fa-sitemap" aria-hidden="true" style="font-size: 1.2em; margin-right: 2em;"> Дерево </i></a></li>
+            </div>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-condensed table-striped" id="token-keeper" data-token="{{ csrf_token() }}">
                 <thead>

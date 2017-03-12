@@ -87,18 +87,16 @@ $(document).ready(function () {
         });
     })
 
-    //-------- Удаление атрибута ---------------
-    $('td > #atribute_link').click(function (event) {
+    //-------- Удаление склада ---------------
+    $('td > .sklad_link').click(function (event) {
         event.preventDefault();
 
         var id = $(this).attr("href"); //Получить текст ссылки из таб. "atribute"
-        var href = 'atribute/' + id; //Сформировать ссылку для AJAX
+        var href = 'sklads/' + id; //Сформировать ссылку для AJAX
         var _parent = $(this).parent().parent();
         var token = $('#token-keeper4').data("token"); //Строка таблицы <TR>
 
-        alert(href);
-
-        confirm_var = confirm('Удалить атрибут?'); //запрашиваем подтверждение на удаление
+        confirm_var = confirm('Удалить склад?'); //запрашиваем подтверждение на удаление
         if (!confirm_var) {
             return false;
         }
@@ -200,6 +198,22 @@ $(document).ready(function () {
 
     })
 
+//-------- Modal edit2 ---------------
+    $('td > .edit2').click(function (event) {
+        event.preventDefault();
+        var id = $(this).data("id"); //Получить id строки.
+
+        $('#group2').val($(this).data("group")); //Ввести группу в input
+        $('#title2').val($(this).data("title")); //Ввести группу в input
+        $('#text2').val($(this).data("note")); //Ввести группу в input
+
+        var f = $('#form_edit2').attr("action"); //получить адресную строку
+
+        var str = f.substr(0, f.length - 2);   //обрезать параметр из шаблона(-1)
+        str = str + id;  // сформировать реальный адрес.
+        $('#form_edit2').attr("action", str); //вставить его в модальную форму.
+
+    })
 
 
 })

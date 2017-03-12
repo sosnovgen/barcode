@@ -8,6 +8,7 @@
         <div class="row" >
             <div class="col-md-9">
                 <h3 class="text-center">Ассортимент</h3>
+                <a class="pull-right"  href="{{action('ArticlesController@create')}}" ><i class="fa fa-plus" aria-hidden="true" style="font-size: 1.2em;"> Добавить новый</i></a>
             </div>
             <div class="col-md-3">
                 <div class="cat-select-over">

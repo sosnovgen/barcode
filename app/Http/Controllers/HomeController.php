@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use Gate;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('create')){
+            return redirect('/register');
+        }
         /*return view('home');*/
         return view('site.front.index');
     }

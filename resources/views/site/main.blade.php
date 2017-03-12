@@ -33,27 +33,17 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-newspaper-o" aria-hidden="true"> Ассортимент </i><span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-database" aria-hidden="true"> БД </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{action('ArticlesController@index')}}">Показать все</a></li>
-                        <li><a href="{{action('ArticlesController@create')}}">Добавить новый</a></li>
+                        <li><a href="{{action('ArticlesController@index')}}"><i class="fa fa-newspaper-o" aria-hidden="true"> Ассортимент </i></a></li>
+                        <li><a href="{{action('CategoriesController@index')}}"><i class="fa fa-folder-open" aria-hidden="true"> Категория </i></a></li>
+                        <li><a href="{{action('GroupsController@index')}}"><i class="fa fa-object-group" aria-hidden="true"> Группа </i></a></li>
+                        <li><a href="{{action('SkladController@index')}}"><i class="fa fa-home" aria-hidden="true"> Точка </i></a></li>
+                        <li><a href="{{action('ContragentsController@index')}}"><i class="fa fa-male" aria-hidden="true"> Контрагенты </i></a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-folder-open" aria-hidden="true"> Категория </i><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{action('CategoriesController@index')}}">Показать все</a></li>
-                        <li><a href="{{action('CategoriesController@create')}}">Добавить новую</a></li>
-                        <li><a href="{{action('CategoriesController@treecats')}}">Дерево</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-folder-open" aria-hidden="true"> Группа </i><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{action('GroupsController@index')}}">Показать все</a></li>
 
-                    </ul>
-                </li>
+
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Атрибуты </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -62,9 +52,22 @@
                         <li><a href="#">Page 1-3</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
+
             </ul>
+
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search" method="POST" action="{{action('ArticlesController@find')}}" enctype="multipart/form-data">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Поиск" name="q22">
+                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
