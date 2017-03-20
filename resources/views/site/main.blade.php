@@ -45,10 +45,10 @@
 
 
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Атрибуты </i><span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Действия </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Page 1-1</a></li>
-                        <li><a href="#">Page 1-2</a></li>
+                        <li><a href="{{action('JurnalsController@index')}}"> Журнал </a></li>
+                        <li><a href="{{action('JurnalsController@buy')}}"> Покупка </a></li>
                         <li><a href="#">Page 1-3</a></li>
                     </ul>
                 </li>
@@ -85,6 +85,20 @@
                         </ul>
                     </li>
                 @endif
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Sklad Links -->
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ Cookie::get('sklad') }} <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{action('HomeController@delsklad')}}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </li>
+
             </ul>
         </div>
     </div>

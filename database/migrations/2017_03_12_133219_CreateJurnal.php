@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Jurnal extends Migration
+class CreateJurnal extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,18 @@ class Jurnal extends Migration
      */
     public function up()
     {
-        Schema::create('jurnal', function (Blueprint $table) {
+        Schema::create('jurnals', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('barcode');
             $table->string('title');
-
+            $table->string('contragent');
+            $table->string('sklad');
+            $table->string('operation');
             $table->decimal('cena_in',10,2);
             $table->decimal('cena_out',10,2);
+            $table->integer('priznak');
+            $table->integer('kol');
+
+
             $table->timestamps();
         });
     }
@@ -30,6 +35,6 @@ class Jurnal extends Migration
      */
     public function down()
     {
-        Schema::drop('jurnal');
+        Schema::drop('jurnals');
     }
 }

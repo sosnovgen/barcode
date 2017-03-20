@@ -108,12 +108,12 @@
                         <td>{{$article->cena_in}}</td>
                         <td>{{$article->cena_out}}</td>
                         <td class="td-1" style="width: 8em;">{{$article->updated_at->format('d-m-Y')}}</td>
-                        <td >
-                            &nbsp;
+                        <td>
+
                             <a href="{{action('AtributesController@add',['id'=>$article->id])}}"><i class="fa fa-font" aria-hidden="true" style="font-size: 1.2em; "></i></a>
-                            &nbsp;
+
                             <a href="{{action('ArticlesController@edit',['id'=>$article->id])}}"><i class="fa fa-pencil" aria-hidden="true" style="font-size: 1.2em; "></i></a>
-                            &nbsp;
+
                             <a class="article_link" href="{{$article->id}}" ><i class="fa fa-trash" aria-hidden="true" style="font-size: 1.2em"></i></a>
                         </td>
                     </tr>
@@ -135,7 +135,7 @@
     </div>
     <br>
 
-    <!------------- Modal ----------------->
+    <!------------- Modal barcode ----------------->
     <div class="modal fade" id="barcode" role="dialog">
         <div class="modal-dialog modal-sm">
 

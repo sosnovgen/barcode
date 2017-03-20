@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Atribute;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Article;
@@ -149,8 +150,10 @@ class ArticlesController extends Controller
         {
             unlink($fileName);
         }
-
         $article->delete();
+
+        //удалить все атрибуты товара id.
+        $attr =  Atribute::where(['article_id' => $id])->delete();
 
         Session::flash('message', 'Товар удалён!');
         return Redirect::to('/articles');

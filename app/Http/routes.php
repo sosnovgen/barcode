@@ -59,3 +59,14 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 
 Route::post('/find', 'ArticlesController@find');
+
+/*------------------ Движение  ------------------------*/
+Route::post('/sklad', 'HomeController@sklad'); //выбор склада.
+Route::get('/delsklad', 'HomeController@delsklad'); //удалить склад.
+
+Route::get('/jurnal', 'JurnalsController@index');
+Route::post('/session', 'JurnalsController@session');
+Route::post('/count/{id}/{kol}','JurnalsController@count'); //изменить кол. тов.
+Route::get('/buy', 'JurnalsController@buy'); //покупка товара.
+Route::get('/store_buy/{bar}', 'JurnalsController@store_buy');
+Route::get('/del/{id}', 'JurnalsController@del'); //удаление товара.
