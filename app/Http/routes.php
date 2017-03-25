@@ -67,6 +67,9 @@ Route::get('/delsklad', 'HomeController@delsklad'); //удалить склад.
 Route::get('/jurnal', 'JurnalsController@index');
 Route::post('/session', 'JurnalsController@session');
 Route::post('/count/{id}/{kol}','JurnalsController@count'); //изменить кол. тов.
-Route::get('/buy', 'JurnalsController@buy'); //покупка товара.
-Route::get('/store_buy/{bar}', 'JurnalsController@store_buy');
+Route::get('/buy', 'JurnalsController@buy'); //форма.
+Route::get('/purchase', 'JurnalsController@purchase'); //Покупка.
 Route::get('/del/{id}', 'JurnalsController@del'); //удаление товара.
+Route::delete('/deljur/{id}', 'JurnalsController@deljur'); //удаление записи из журнала.
+Route::get('/order', 'JurnalsController@order'); //провести операцию.
+Route::post('/filter', 'JurnalsController@filter'); //Применить фильтр.

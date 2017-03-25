@@ -222,7 +222,7 @@ $(document).ready(function () {
         var summ = $(this).parent().next().text(kol * cena); //изменить сумму.
         var id = $(this).parent().siblings().eq(0).text(); //ID товара
 
-        $('this').select(); //фокус на input.
+        $("input[name='bar']").select(); //фокус на input.
 
         var token = $('#token-keeper7').data("token");
         var href = 'count/' + id + '/' + kol; //Сформировать ссылку.

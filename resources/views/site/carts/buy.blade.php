@@ -38,7 +38,7 @@
                 </div>
 
                 @if(Session::has('message'))
-                    <div class="alert alert-danger fade in">
+                    <div class="alert alert-info in">
                         <a href="#" class="close" data-dismiss="alert">&times;</a>
                         <strong>Success!</strong> {{Session::get('message')}}.
                     </div>
@@ -89,9 +89,9 @@
             <div class="col-md-4">
                 <br>
                 <div class="description small">
-                    <p>* Здесь можно добавить ли отредактировать группу товара.</p>
-                    <p>* Группа позволяет сортировать товар по заданному признаку (например: "Новинка", "Распродажа" и т.п.)</p>
-
+                    <p>* Здесь можно купить, продать, передать товар.</p>
+                    <p>* Обязательно установите контрагента (клиент, покупатель, склад) с которым проводиться операция.</p>
+                    <p>* После того, как выбран товар можно отредактировать количество.</p>
                 </div>
             </div>
 
@@ -109,7 +109,10 @@
         <!------ Вывод выбранных товаров  ------->
     @if (Session::has('sale'))
         {{var_dump(session('sale'))}}
+        {{var_dump(session('user'))}}
+        {{var_dump(session('sklad'))}}
         {{var_dump(session('contragent'))}}
+
     @endif
 
 

@@ -48,7 +48,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Действия </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{action('JurnalsController@index')}}"> Журнал </a></li>
-                        <li><a href="{{action('JurnalsController@buy')}}"> Покупка </a></li>
+                        <li><a href="{{action('JurnalsController@purchase')}}"> Покупка </a></li>
                         <li><a href="#">Page 1-3</a></li>
                     </ul>
                 </li>
