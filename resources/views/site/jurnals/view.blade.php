@@ -1,5 +1,6 @@
 @extends('site.main')
 @section('content')
+
     <div class="container">
         <button type="button" class="close" onclick="location.href='{{asset('/')}}'">&times;</button>
 
@@ -162,12 +163,45 @@
                                     @endif
                                 @endforeach
                             </select>
+                            <br><br>
+
+                            <label>Период</label>
                             <br>
+                                <div class="time">
+                                    <div class="lab12 pull-left">от</div>
+                                    <input type="text" class="form-control pull-left" value="" id="dpd1" >
+                                    <div class="lab12 pull-left">до</div>
+                                    <input type="text" class="form-control pull-left" value="" id="dpd2" >
+                                </div>
+
+
+
+                            <script>
+                                $( "#dpd1" ).datepicker({
+                                    gotoCurrent: true,
+                                    firstDay: 1,
+                                    dateFormat: "dd.mm.yy",
+                                    dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+                                    monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ]
+                                });
+
+                                $( "#dpd2" ).datepicker({
+                                    gotoCurrent: true,
+                                    firstDay: 1,
+                                    dateFormat: "dd.mm.yy",
+                                    dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+                                    monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ]
+                                });
+
+
+
+
+                            </script>
 
                         </div>
                     </div>
                 </div>
-                <br>
+
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default">Применить</button>
                 </div>

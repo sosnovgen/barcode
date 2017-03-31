@@ -73,3 +73,5 @@ Route::get('/del/{id}', 'JurnalsController@del'); //удаление товар�
 Route::delete('/deljur/{id}', 'JurnalsController@deljur'); //удаление записи из журнала.
 Route::get('/order', 'JurnalsController@order'); //провести операцию.
 Route::post('/filter', 'JurnalsController@filter'); //Применить фильтр.
+
+Route::get('/test', 'JurnalsController@test'); //тестовая страница.

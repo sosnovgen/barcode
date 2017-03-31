@@ -236,7 +236,12 @@ class JurnalsController extends Controller
             ]);
     }
 
-
+    public function test()
+    {
+        
+    return view('site.jurnals.test');        
+        
+    }
 
 
 }

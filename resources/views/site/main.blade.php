@@ -11,10 +11,18 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.css')}}">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('font-awesome-4.7.0/css/font-awesome.min.css')}}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{asset('css/bar.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
+
+
+    {{--<script src="//code.jquery.com/jquery-1.12.4.js"></script>--}}
+   {{-- <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>--}}
+    <script src="{{asset('js/jquery-1.12.4.js')}}"></script>
+    <script src="{{asset('js/jquery-ui.js')}}"></script>
 
 
 </head>
@@ -32,6 +40,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="{{action('JurnalsController@test')}}">Test</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-database" aria-hidden="true"> БД </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -122,6 +131,7 @@
 <script src="{{asset('js/jquery-2.2.4.min.js')}}"></script>
 <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('bootstrap/js/bootstrap-filestyle.min.js')}}"></script>
+
 <script src="{{asset('js/bar.js')}}"></script>
 </body>
 </html>
