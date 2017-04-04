@@ -169,9 +169,9 @@
                             <br>
                                 <div class="time">
                                     <div class="lab12 pull-left">от</div>
-                                    <input type="text" class="form-control pull-left" value="" id="dpd1" >
+                                        <input type="text" class="form-control pull-left" name="date_1" value="{{substr(Session::get('filter.date_start'), 0,10)}}" id="dpd1" >
                                     <div class="lab12 pull-left">до</div>
-                                    <input type="text" class="form-control pull-left" value="" id="dpd2" >
+                                        <input type="text" class="form-control pull-left" name="date_2" value="{{substr(Session::get('filter.date_end'), 0,10) }}" id="dpd2" >
                                 </div>
 
 
@@ -180,7 +180,7 @@
                                 $( "#dpd1" ).datepicker({
                                     gotoCurrent: true,
                                     firstDay: 1,
-                                    dateFormat: "dd.mm.yy",
+                                    dateFormat: "yy-mm-dd",
                                     dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
                                     monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ]
                                 });
@@ -188,7 +188,7 @@
                                 $( "#dpd2" ).datepicker({
                                     gotoCurrent: true,
                                     firstDay: 1,
-                                    dateFormat: "dd.mm.yy",
+                                    dateFormat: "yy-mm-dd",
                                     dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
                                     monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ]
                                 });
@@ -204,6 +204,7 @@
 
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default">Применить</button>
+                    <a class="pull-left"  href="{{action('JurnalsController@clear')}}" ><i class="fa fa-ban" aria-hidden="true" style="font-size: 1.0em; margin: 6px 0 0 8px;"> Сбросить фильтр</i></a>
                 </div>
                 </form>
 

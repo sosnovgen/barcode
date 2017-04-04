@@ -193,9 +193,22 @@ class JurnalsController extends Controller
         $sklad = $request ->input("sklad");
         $operation = $request ->input("operation");
 
+        $str_date = $request ->input("date_1");     //получить строку из запроса.
+        $date = date_create($str_date.' 00:00:00'); //создать датую
+        $date = date_format($date,"Y-m-d H:i:s");   //вывести в нужном формате.
+        $date_start = date($date, time());          //начало периода
+
+        $str_date = $request ->input("date_2");
+        $date = date_create($str_date.' 23:59:59');
+        $date = date_format($date,"Y-m-d H:i:s");
+        $date_end = date($date, time());            //конец периода
+
+
         $request->session()->put('filter.contragent', $contragent);
         $request->session()->put('filter.sklad', $sklad);
         $request->session()->put('filter.operation', $operation);
+        $request->session()->put('filter.date_start', $date_start);
+        $request->session()->put('filter.date_end', $date_end);
 
 
         if($contragent == 0){
@@ -222,9 +235,12 @@ class JurnalsController extends Controller
             $value3 = Operation::find($operation)->title;
         }
 
+        /*-----------------  фильтрация ------------------*/
         $jurnals = Jurnal::where('contragent',$sign ,$value)
             -> where('sklad',$sign2 ,$value2)
             -> where('operation',$sign3 ,$value3)
+            -> whereBetween('created_at', [$date_start, $date_end])
+            /*-> whereBetween('created_at', ['2017-03-22 00:00:00', '2017-04-23 23:59:59'])*/
             -> orderBy('created_at','DESC')-> paginate(12);
 
         $links = str_replace('/?', '?', $jurnals->render());
@@ -236,6 +252,14 @@ class JurnalsController extends Controller
             ]);
     }
 
+    /*------------- сбросить фильтр  ----------------------*/
+    public function clear()
+    {
+        Session::forget('filter'); //удалить переменную 'sale'.
+        return Redirect::to('/jurnal');
+    }
+    
+    
     public function test()
     {
         

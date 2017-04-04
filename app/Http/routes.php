@@ -75,3 +75,4 @@ Route::get('/order', 'JurnalsController@order'); //провести операц
 Route::post('/filter', 'JurnalsController@filter'); //Применить фильтр.
 
 Route::get('/test', 'JurnalsController@test'); //тестовая страница.
+Route::get('/clear', 'JurnalsController@clear'); //бросить фильтр.
