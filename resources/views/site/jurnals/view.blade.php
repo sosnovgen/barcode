@@ -28,13 +28,14 @@
                 <thead>
                 <tr>
                     <th class="td-1">Дата</th>
-                    <th>id</th>
+
                     <th>Название</th>
                     <th>Контрагент</th>
                     <th>Точка</th>
                     <th>Операция</th>
                     <th>Цена</th>
                     <th>Кол.</th>
+                    <th>Сумма</th>
                     <th>Action</th>
 
                 </tr>
@@ -43,13 +44,14 @@
                 @foreach ($jurnals as $row)
                     <tr>
                         <td class="td-1" style="width: 8em;">{{$row->created_at ->format('d-M H:i')}}</td>
-                        <td>{{$row->id}}</td>
+
                         <td class="td-2">{{$row->title}}</td>
                         <td>{{$row->contragent}}</td>
                         <td>{{$row->sklad}}</td>
                         <td>{{$row->operation}}</td>
                         <td>{{$row ->cena}}</td>
                         <td>{{$row ->kol}}</td>
+                        <td>{{$row ->kol*$row ->cena}}</td>
                         <td >
                             <form  onsubmit="return confirm('Удалить запись?')" style="float: left" method="POST" action="{{action('JurnalsController@deljur',['id'=>$row->id])}}">
                                 <input type="hidden" name="_method" value="delete"/>
@@ -82,6 +84,10 @@
         {{var_dump(session('filter'))}}
 
     @endif
+
+
+
+
 
     <!-- Modal Filter -->
     <div id="myModal" class="modal fade" role="dialog">

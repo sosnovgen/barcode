@@ -70,9 +70,87 @@ class JurnalsController extends Controller
 
     }
 
+    //Продажа.
+    public function sale()
+    {
+        $contragents = Contragent::where('group', 'Покупатели')-> get();
+        session()->put('contragents', $contragents);
+        session()->put('operation', 'продажа');
+        session()->put('priznak', '1');
+        session()->put('user', Auth::user()->name);  //кто user?
+        session()->put('sklad', Cookie::get('sklad')); //торговая точка.
+
+        return Redirect::to('/buy');
+
+    }
+
+    //Выдача.
+    public function delivery()
+    {
+        $_sklad = Cookie::get('sklad'); //торговая точка.
+        session()->put('sklad', $_sklad);
+        $contragents = Sklad::where('title', '<>', $_sklad)-> get();
+        session()->put('contragents', $contragents);
+        session()->put('operation', 'выдача');
+        session()->put('priznak', '1');
+        session()->put('user', Auth::user()->name);  //кто user?
+
+        return Redirect::to('/buy');
+
+    }
+
+    //Получение.
+    public function receipt()
+    {
+        $_sklad = Cookie::get('sklad'); //торговая точка.
+        session()->put('sklad', $_sklad);
+        $contragents = Sklad::where('title', '<>', $_sklad)-> get();
+        session()->put('contragents', $contragents);
+        session()->put('operation', 'получение');
+        session()->put('priznak', '-1');
+        session()->put('user', Auth::user()->name);  //кто user?
+
+        return Redirect::to('/buy');
+
+    }
+
+    //Получение.
+    public function refund()
+    {
+        $contragents = Contragent::where('group', 'Покупатели')-> get();
+        session()->put('contragents', $contragents);
+        session()->put('operation', 'возврат');
+        session()->put('priznak', '-1');
+        session()->put('user', Auth::user()->name);  //кто user?
+        session()->put('sklad', Cookie::get('sklad')); //торговая точка.
+
+        return Redirect::to('/buy');
+
+    }
+
+    //Покупка.
+    public function discard()
+    {
+        $contragents = Contragent::where('group', 'Поставщики')-> get();
+        session()->put('contragents', $contragents);
+        session()->put('operation', 'брак');
+        session()->put('priznak', '1');
+        session()->put('user', Auth::user()->name);  //кто user?
+        session()->put('sklad', Cookie::get('sklad')); //торговая точка.
+
+        return Redirect::to('/buy');
+
+    }
+
+
     //Форма.
     public function buy(Request $request)
     {
+        $oper = session('operation'); //получить тип операции.
+        $contr = 'точка'; //контрагент.
+        if (($oper == 'покупка')||($oper == 'брак')){$contr = 'поставщик';}
+        if (($oper == 'продажа')||($oper == 'возврат')){$contr = 'покупатель';}
+        if (($oper == 'выдача')||($oper == 'получение')){$contr = 'точка';}
         $contragents = session()->get('contragents');
 
         if ($request->session()->has('sale')) //Есть массив 'sale'?
@@ -94,6 +172,8 @@ class JurnalsController extends Controller
 
         return view('site.carts.buy',
             [
+                'oper' => $oper,
+                'contr' => $contr,
                 'orders' => $orders,
                 'contragents' => $contragents,
             ]);
@@ -154,10 +234,20 @@ class JurnalsController extends Controller
                     $kol = session('sale.' . $sale);  //из сессии берём количество - по ID
                     $prod->kol = $kol;                //добавляем количество
                     $prod->title = $art->title;       //название товара
-                    $prod->contragent = Contragent::find(session('contragent'))->title; //контрагент.
+
+                    if (session('operation')=='выдача' || session('operation')=='получение')
+                        {$prod->contragent = Sklad::find(session('contragent'))->title;} //точка.
+                    else
+                        {$prod->contragent = Contragent::find(session('contragent'))->title;} //контрагент.
+
                     $prod->sklad = session('sklad');        //тор.точка.
                     $prod->operation = session('operation'); //тип операции.
-                    $prod->cena = $art->cena_in;            //цена
+
+                    if (session('operation')=='покупка' || session('operation')=='брак')
+                        {$prod->cena = $art->cena_in;}     //цена покупки.
+                    else
+                        {$prod->cena = $art->cena_out;}    //цена продажи.
+
                     $prod->priznak = session('priznak');    //признак операции.
                     $prod->user = session('user');          //ползователь.
 

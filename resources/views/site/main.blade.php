@@ -56,9 +56,20 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Действия </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{action('JurnalsController@index')}}"> Журнал </a></li>
-                        <li><a href="{{action('JurnalsController@purchase')}}"> Покупка </a></li>
-                        <li><a href="#">Page 1-3</a></li>
+                        <li><a href="{{action('JurnalsController@purchase')}}"><i class="fa fa-arrow-down" aria-hidden="true"> Покупка </i></a></li>
+                        <li><a href="{{action('JurnalsController@sale')}}"><i class="fa fa-arrow-up" aria-hidden="true"> Продажа </i></a></li>
+                        <li><a href="{{action('JurnalsController@delivery')}}"><i class="fa fa-arrow-right" aria-hidden="true"> Выдача </i></a></li>
+                        <li><a href="{{action('JurnalsController@receipt')}}"><i class="fa fa-arrow-left" aria-hidden="true"> Получение </i></a></li>
+                        <li><a href="{{action('JurnalsController@refund')}}"><i class="fa fa-undo" aria-hidden="true"> Возврат </i></a></li>
+                        <li><a href="{{action('JurnalsController@discard')}}"><i class="fa fa-reply-all" aria-hidden="true"> Брак </i></a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Состояние </i><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{action('JurnalsController@index')}}"><i class="fa fa-list" aria-hidden="true"> Журнал </i></a></li>
+
                     </ul>
                 </li>
 

@@ -38,7 +38,7 @@ class AtributesController extends Controller
     {
         $article = Article::find($id); //для заголовка
                 
-        $atributes = Atribute::where('article_id', $id)-> paginate(12);
+        $atributes = Atribute::where('article_id', $id)->orderBy('key')-> paginate(12);
         $links = str_replace('/?', '?', $atributes->render());
 
         $count = $atributes ->count(); //число строк

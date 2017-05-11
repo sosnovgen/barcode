@@ -14,13 +14,13 @@
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
 
                         <div class="col-md-5">
-                            <label for="bar" class="text-left" style="margin:0.5em 1em; font-size: 1.2em; color: #2c72e6;">Покупка</label>
+                            <label for="bar" class="text-left" style="margin:0.5em 1em; font-size: 1.2em; color: #2c72e6;">{{$oper}}</label>
                             <input type="text" name="bar" class="bar" autofocus
                                    onkeypress="if(event.keyCode==13)validForm(this.form)">
                         </div>
 
-                        <div class="col-md-5">
-                            <label for="contragent" class="text-left" style="margin:1em 1em; font-size: 1.0em;">Поставщики</label>
+                        <div class="col-md-7">
+                            <label for="contragent" class="text-left" style="margin:0.5em 1em; font-size: 1.2em; color: #2c72e6;">{{$contr}}</label>
                             <select name="contragent" class="" style="width: 12em; height: 1.8em;">
                                 @foreach($contragents as $row)
                                     @if($row->id == session('contragent'))
@@ -34,8 +34,11 @@
 
                         <input type="hidden" name="operation" value="Покупка">
 
+
+
                     </form>
                 </div>
+                <br>
 
                 @if(Session::has('message'))
                     <div class="alert alert-info in">
@@ -61,7 +64,11 @@
                             <tr>
                                 <td>{{$order->id}}</td>
                                 <td>{{$order->title}}</td>
-                                <td>{{$order->cena_in}}</td>
+                                @if (session('operation')=='покупка' || session('operation')=='брак')
+                                    <td>{{$order->cena_in}}</td>
+                                @else
+                                    <td>{{$order->cena_out}}</td>
+                                @endif
                                 <td class="input_44">
                                     <input name="kol" id="in45" type="number" value="{{session('sale.'.$order -> id)}}" class="input_45">
                                 </td>
@@ -100,20 +107,16 @@
 
 
 
-    {{--
-        @if(Session::has('error'))
-        {{Session::get('error')}}
-        @endif
-    --}}
+
 
         <!------ Вывод выбранных товаров  ------->
-    @if (Session::has('sale'))
+ {{--   @if (Session::has('sale'))
         {{var_dump(session('sale'))}}
         {{var_dump(session('user'))}}
         {{var_dump(session('sklad'))}}
         {{var_dump(session('contragent'))}}
 
-    @endif
+    @endif--}}
 
 
 @stop
