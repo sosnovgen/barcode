@@ -19,8 +19,8 @@ th {
     color: black;
     /*border-bottom: 3px solid #c7c7c7;*/
     background-color: #e5f6d0;
-    text-align: center;
 }
+
 
 .table_cap th{
     background-color: #f6f6f6;
@@ -40,6 +40,7 @@ th {
     border-bottom: 3px solid #c7c7c7;
     padding: 10px 14px;
 }
+
 .table-condensed>tbody>tr>th,
 .table-condensed>tbody>tr>td{
     padding: 5px 10px;
@@ -48,6 +49,22 @@ th {
     padding: 5px 0px !important;
     text-decoration: none !important;
 }
+
+.cap_011{
+    font-size: large;
+    margin: 14px 0 8px 0;
+    padding: 4px 0 4px 0;
+    color: #4c69c2;
+}
+.text24{
+    font-weight: normal;
+}
+.text25{
+    padding: 0 24px 0 0;
+    font-size:medium;
+    float:right;
+}
+.text26{font-size:larger;}
 
 .clear{clear:both;}/* clear float */
 

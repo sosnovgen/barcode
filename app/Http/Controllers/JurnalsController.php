@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Contragent;
+use App\Detal;
 use App\Operation;
 use App\Sklad;
 use Illuminate\Http\Request;
@@ -59,6 +60,7 @@ class JurnalsController extends Controller
     //Покупка.
     public function purchase()
     {
+        Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
         $contragents = Contragent::where('group', 'Поставщики')-> get();
         session()->put('contragents', $contragents);
         session()->put('operation', 'покупка');
@@ -73,6 +75,7 @@ class JurnalsController extends Controller
     //Продажа.
     public function sale()
     {
+        Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
         $contragents = Contragent::where('group', 'Покупатели')-> get();
         session()->put('contragents', $contragents);
         session()->put('operation', 'продажа');
@@ -87,6 +90,7 @@ class JurnalsController extends Controller
     //Выдача.
     public function delivery()
     {
+        Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
         $_sklad = Cookie::get('sklad'); //торговая точка.
         session()->put('sklad', $_sklad);
         $contragents = Sklad::where('title', '<>', $_sklad)-> get();
@@ -102,6 +106,7 @@ class JurnalsController extends Controller
     //Получение.
     public function receipt()
     {
+        Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
         $_sklad = Cookie::get('sklad'); //торговая точка.
         session()->put('sklad', $_sklad);
         $contragents = Sklad::where('title', '<>', $_sklad)-> get();
@@ -117,6 +122,7 @@ class JurnalsController extends Controller
     //Получение.
     public function refund()
     {
+        Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
         $contragents = Contragent::where('group', 'Покупатели')-> get();
         session()->put('contragents', $contragents);
         session()->put('operation', 'возврат');
@@ -131,6 +137,7 @@ class JurnalsController extends Controller
     //Покупка.
     public function discard()
     {
+        Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
         $contragents = Contragent::where('group', 'Поставщики')-> get();
         session()->put('contragents', $contragents);
         session()->put('operation', 'брак');
@@ -227,40 +234,54 @@ class JurnalsController extends Controller
         {
             $sales = session('sale'); //все выбранные записи
             if(count($sales) > 0) {
-                foreach ($sales as $sale => $id) //записать в переменную все выбранные записи.
+
+                $jur = new Jurnal();            //новая операция для таблицы 'jurnals'.
+
+                if (session('operation')=='выдача' || session('operation')=='получение')
+                {$jur -> contragent = Sklad::find(session('contragent'))->title;} //точка.
+                else
+                {$jur -> contragent = Contragent::find(session('contragent'))->title;} //контрагент.
+
+                $jur -> sklad = session('sklad');         //тор.точка.
+                $jur -> operation = session('operation'); //тип операции.
+                $jur -> priznak = session('priznak');     //признак операции.
+                $jur -> user = session('user');           //ползователь.
+                $jur->save();          //записать в таблицу Jurnal.
+
+                $sum = 0; //сумма выбранного товара.
+
+                foreach ($sales as $sale => $id) //записать в Detal все выбранные записи.
                 {
-                    $prod = new Jurnal();            //новая запись для таблицы 'jurnals'.
+                    $prod = new Detal(); //новая запись выбранного товара.
                     $art = Article::find($sale);     //товар из articles - выбран по ID
                     $kol = session('sale.' . $sale);  //из сессии берём количество - по ID
+                    $prod->jurnal_id = $jur->id;      //id операции.
                     $prod->kol = $kol;                //добавляем количество
+                    $prod->article_id = $art->id;     //id товара
                     $prod->title = $art->title;       //название товара
-
-                    if (session('operation')=='выдача' || session('operation')=='получение')
-                        {$prod->contragent = Sklad::find(session('contragent'))->title;} //точка.
-                    else
-                        {$prod->contragent = Contragent::find(session('contragent'))->title;} //контрагент.
-
-                    $prod->sklad = session('sklad');        //тор.точка.
-                    $prod->operation = session('operation'); //тип операции.
 
                     if (session('operation')=='покупка' || session('operation')=='брак')
                         {$prod->cena = $art->cena_in;}     //цена покупки.
                     else
                         {$prod->cena = $art->cena_out;}    //цена продажи.
 
-                    $prod->priznak = session('priznak');    //признак операции.
-                    $prod->user = session('user');          //ползователь.
+                    $sum = $sum + ($prod->cena)* $kol;     //суммирование цены.
 
-                    $prod->save();                //записать в таблицу.
+                    $prod->save();                         //записать в таблицу Detal.
 
                 }
+
+                $jur2 = Jurnal::find($jur->id); //последняя добавленная запись в журнал.
+                $jur2->sum = $sum;              //записать сумму товара для этой операции.
+                $jur2->save();                  //сохранить.
+
                 Session::forget('sale'); //удалить переменную 'sale'.
                // Session::flush(); //полностью очистить сессию.
                 Session::flash('message', 'Успешно!');
             }
         }
 
-        return Redirect::to('/buy');
+        return redirect()->action('JurnalsController@detals', ['id' => $jur2]);
     }
 
 //-------------------------------------------------------
@@ -357,5 +378,19 @@ class JurnalsController extends Controller
         
     }
 
+    //Вывод спискатоваров в операции.
+    public function detals($id) //в id - номер операции в журнале
+    {
+        $products = Detal::where('jurnal_id', $id)-> get();
+        $jurnal = Jurnal::find($id);
+        return view('site.jurnals.detals',
+           [ 
+            'products' => $products,  
+            'jurnal' => $jurnal,
+        ]);
+
+    }
+    
+    
 
 }

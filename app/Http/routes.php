@@ -65,6 +65,7 @@ Route::post('/sklad', 'HomeController@sklad'); //выбор склада.
 Route::get('/delsklad', 'HomeController@delsklad'); //удалить склад.
 
 Route::get('/jurnal', 'JurnalsController@index');
+Route::get('/detals/{id}', 'JurnalsController@detals');
 Route::post('/session', 'JurnalsController@session');
 
 Route::post('/count/{id}/{kol}','JurnalsController@count'); //изменить кол. тов.

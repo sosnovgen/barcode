@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jurnal extends Model
 {
-    protected $fillable = ['title','contragent','sklad', 'kol', 'operation', 'cena', 'priznak'];
+    protected $fillable = ['contragent','sklad', 'operation', 'sum','priznak'];
     protected $attributes = array (
-        'kol' => '1',
         'priznak' => '0',
-        'cena' => 0,
+        'sum' => '0',
 
     );
 }
