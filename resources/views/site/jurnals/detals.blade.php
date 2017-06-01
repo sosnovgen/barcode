@@ -29,7 +29,7 @@
                         <label class="form-control text24">{{$jurnal -> contragent}}</label>
                     </div>
                     <div class="col-md-3">
-                        <label>Кто отпустил</label>
+                        <label>Точка</label>
                         <input type="text" name="created_at" value = "{{$jurnal ->sklad}}" class="form-control">
                     </div>
 
@@ -50,8 +50,7 @@
                     <tbody>
                     @foreach($products as $product)
                         <tr>
-
-                            <td>{{$product -> id}}</td>
+                            <td>{{$product -> article_id}}</td>
                             <td>{{$product -> title}}</td>
                             <td>{{$product -> cena}}</td>
                             <td>{{$product -> kol}}</td>

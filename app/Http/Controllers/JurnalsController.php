@@ -119,7 +119,7 @@ class JurnalsController extends Controller
 
     }
 
-    //Получение.
+    //Возврат.
     public function refund()
     {
         Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
@@ -134,7 +134,7 @@ class JurnalsController extends Controller
 
     }
 
-    //Покупка.
+    //Брак.
     public function discard()
     {
         Session::forget('sale'); //удалить переменную 'sale' - очистить предыдущую операцию.
@@ -252,7 +252,7 @@ class JurnalsController extends Controller
 
                 foreach ($sales as $sale => $id) //записать в Detal все выбранные записи.
                 {
-                    $prod = new Detal(); //новая запись выбранного товара.
+                    $prod = new Detal();             //новая запись выбранного товара.
                     $art = Article::find($sale);     //товар из articles - выбран по ID
                     $kol = session('sale.' . $sale);  //из сессии берём количество - по ID
                     $prod->jurnal_id = $jur->id;      //id операции.
@@ -290,6 +290,9 @@ class JurnalsController extends Controller
     {
         $jurnal = Jurnal::find($id);
         $jurnal -> delete();
+
+        //удалить все записи товара из detals вязанные с этой проводкой.
+        $ddetals =  Detal::where(['jurnal_id' => $id])->delete();
 
         Session::flash('message', 'Запись удалёна!');
         return redirect()->back();
@@ -363,7 +366,7 @@ class JurnalsController extends Controller
             ]);
     }
 
-    /*------------- сбросить фильтр  ----------------------*/
+    /*------------- сбросить фильтр ----------------------*/
     public function clear()
     {
         Session::forget('filter'); //удалить переменную 'sale'.
@@ -390,7 +393,56 @@ class JurnalsController extends Controller
         ]);
 
     }
-    
-    
+
+    /*------------- наличие  ----------------------*/
+    public function balance()
+    {
+        $detals = Detal::all(); //все товары.
+        $list = array();
+        foreach ($detals as $row) {
+
+             $item['article_id']= $row->article_id;
+             $item['title']= $row->title;
+             $item['sklad']= $row->jurnal->sklad;
+             $item['cena']= $row->cena;
+             $item['kol']= $row->kol;
+             $item['jurnal_id']= $row->jurnal_id;
+             $item['priznak']= $row->jurnal->priznak;
+             $list[] = $item;
+        }
+
+        $detals = array();
+        foreach ($list as $row){
+            //если массив пустой - добавить полностью.
+           if(!count($detals)>0)
+            {
+                $row['kol'] = $row['kol'] * $row['priznak'] * (-1);
+                $detals[]= $row;
+            }
+           else
+            {
+                $t=0; //признак повторения.
+                foreach ($detals as $key => $rew)
+                {
+                    if (($rew['article_id'] == $row['article_id'])&&($rew['sklad'] == $row['sklad']))
+                    {
+                       $rew['kol'] = $rew['kol'] + ($row['kol'] * $row['priznak'] * (-1) );
+                       $detals[$key] = $rew;
+                       $t=1; //были совпадения.
+
+                    }
+                }
+                if ($t==0){
+                    $row['kol'] = $row['kol'] * $row['priznak'] * (-1);
+                    $detals[]= $row;
+                }
+            }
+        }
+
+        return view('site.jurnals.balance',
+            [
+                'detals' => $detals,
+            ]);
+    }    
 
 }

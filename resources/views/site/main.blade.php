@@ -69,7 +69,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"> Состояние </i><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{action('JurnalsController@index')}}"><i class="fa fa-list" aria-hidden="true"> Журнал </i></a></li>
-
+                        <li><a href="{{action('JurnalsController@balance')}}"><i class="fa fa-balance-scale" aria-hidden="true"> Наличие </i></a></li>
                     </ul>
                 </li>
 
