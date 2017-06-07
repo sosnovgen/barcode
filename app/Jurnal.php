@@ -12,4 +12,10 @@ class Jurnal extends Model
         'sum' => '0',
 
     );
+
+    public function detalses()
+    {
+        return $this->hasMany('App\Detal');
+    }   
+    
 }

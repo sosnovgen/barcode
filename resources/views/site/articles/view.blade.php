@@ -15,7 +15,7 @@
                 <div class="cat-select">
                 <label for="category_id">Выбрать категорию</label>
                 <select onchange="window.location.href=this.options[this.selectedIndex].value" name="category_id" class="form-control" id="select_cat" onfocus='this.size=12;' onchange='this.size=1;' onblur='this.size=1;'>
-                    <option value="{{action('ArticlesController@index')}}"  >Все</option>
+                    <option value="{{action('ArticlesController@index')}}" >Все</option>
 
                     @foreach($categories as $category)
 

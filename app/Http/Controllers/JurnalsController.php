@@ -13,6 +13,7 @@ use Session;
 use Redirect;
 use Auth;
 use Cookie;
+use DB;
 
 use App\Http\Requests;
 
@@ -415,12 +416,12 @@ class JurnalsController extends Controller
         foreach ($list as $row){
             //если массив пустой - добавить полностью.
            if(!count($detals)>0)
-            {
+           {
                 $row['kol'] = $row['kol'] * $row['priznak'] * (-1);
                 $detals[]= $row;
-            }
+           }
            else
-            {
+           {
                 $t=0; //признак повторения.
                 foreach ($detals as $key => $rew)
                 {
@@ -429,7 +430,71 @@ class JurnalsController extends Controller
                        $rew['kol'] = $rew['kol'] + ($row['kol'] * $row['priznak'] * (-1) );
                        $detals[$key] = $rew;
                        $t=1; //были совпадения.
+                    }
+                }
+                if ($t==0){
+                    $row['kol'] = $row['kol'] * $row['priznak'] * (-1);
+                    $detals[]= $row;
+                }
+           }
+        }
 
+        $sort2 = 0; //сортировка по складу отключена
+        $sklads = Sklad::all()-> sortBy('title');
+
+        return view('site.jurnals.balance',
+            [
+                'detals' => $detals,
+                'sort2' => $sort2,
+                'sklads' => $sklads,
+            ]);
+    }
+
+    /*------------- наличие по складу  ----------------------*/
+    public function balance2($id) //в id  название склада.
+    {
+        $jurnals_id = Jurnal::where('sklad', $id)-> lists('id'); //все номера операции по этому складу.
+        $detals = Detal::whereIn('jurnal_id',$jurnals_id)->get(); //товары сортированные по складу.
+       // $detals = DB::table('detals')->whereIn('jurnal_id', $jurnals_id)->get();
+
+        /*return view('site.jurnals.test',
+            [
+                'detals' => $detals,
+            ]);*/
+
+
+
+        $list = array();
+        foreach ($detals as $row) {
+
+            $item['article_id']= $row->article_id;
+            $item['title']= $row->title;
+            $item['sklad']= $row->jurnal->sklad;
+            $item['cena']= $row->cena;
+            $item['kol']= $row->kol;
+            $item['jurnal_id']= $row->jurnal_id;
+            $item['priznak']= $row->jurnal->priznak;
+            $list[] = $item;
+        }
+
+        $detals = array();
+        foreach ($list as $row){
+            //если массив пустой - добавить полностью.
+            if(!count($detals)>0)
+            {
+                $row['kol'] = $row['kol'] * $row['priznak'] * (-1);
+                $detals[]= $row;
+            }
+            else
+            {
+                $t=0; //признак повторения.
+                foreach ($detals as $key => $rew)
+                {
+                    if (($rew['article_id'] == $row['article_id'])&&($rew['sklad'] == $row['sklad']))
+                    {
+                        $rew['kol'] = $rew['kol'] + ($row['kol'] * $row['priznak'] * (-1) );
+                        $detals[$key] = $rew;
+                        $t=1; //были совпадения.
                     }
                 }
                 if ($t==0){
@@ -439,10 +504,18 @@ class JurnalsController extends Controller
             }
         }
 
+        $sort2 = 1; //сортировка по складу включена.
+        $sklads = Sklad::all()-> sortBy('title');
+
         return view('site.jurnals.balance',
             [
                 'detals' => $detals,
+                'sort2' => $sort2,
+                'sklads' => $sklads,
+                'select_sklad' => $id,
             ]);
-    }    
+
+
+    }
 
 }

@@ -1,6 +1,8 @@
 @extends('site.main')
 @section('content')
 
-{{var_dump($detals)}}
+@foreach($detals as $row)
+    {{$row->id}}
+@endforeach
 
 @stop
