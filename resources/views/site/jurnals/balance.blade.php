@@ -13,13 +13,13 @@
                 <div class="cat-select-over">
                     <div class="cat-select">
                         <label for="category_id">Выбрать точку</label>
-                        <select onchange="window.location.href=this.options[this.selectedIndex].value" class="form-control" onfocus='this.size=12;' onchange='this.size=1;' onblur='this.size=1;'>
+                        <select onchange="window.location.href=this.options[this.selectedIndex].value" class="form-control" onfocus='this.size=12;' onchange='this.size=1;' >
                             <option value="{{action('JurnalsController@balance')}}"  >Все</option>
                             @foreach($sklads as $row)
 
                                 <option value="{{action('JurnalsController@balance2',['id'=>$row->title])}}"
                                         @if(($sklads ->count() >0)&&($sort2 == 1))
-                                            @if   ($select_sklad == $row->id)
+                                            @if   ($select_sklad == $row->title)
                                                 selected
                                             @endif
                                         @endif
@@ -68,5 +68,8 @@
 
     </div>
 
+    {{--begin of pagination--}}
+    <div style="width: 50%; margin: 0 auto; text-align: center"> {!! $detals->links() !!} </div>
+    {{--end of pagination--}}
 
 @stop

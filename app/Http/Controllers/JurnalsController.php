@@ -13,8 +13,7 @@ use Session;
 use Redirect;
 use Auth;
 use Cookie;
-use DB;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests;
 
 class JurnalsController extends Controller
@@ -396,7 +395,7 @@ class JurnalsController extends Controller
     }
 
     /*------------- наличие  ----------------------*/
-    public function balance()
+    public function balance(Request $request)
     {
         $detals = Detal::all(); //все товары.
         $list = array();
@@ -439,30 +438,38 @@ class JurnalsController extends Controller
            }
         }
 
+        /*------------ Pagination array ---------------*/
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($detals);
+        // Define how many items we want to be visible in each page
+        $perPage = 16;
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection ->slice(($currentPage * $perPage)- $perPage, $perPage) ->all();
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+        // set url path for generted links
+        $paginatedItems->setPath($request->url());
+
+
+
         $sort2 = 0; //сортировка по складу отключена
         $sklads = Sklad::all()-> sortBy('title');
 
         return view('site.jurnals.balance',
             [
-                'detals' => $detals,
+                'detals' => $paginatedItems,
                 'sort2' => $sort2,
                 'sklads' => $sklads,
             ]);
     }
 
     /*------------- наличие по складу  ----------------------*/
-    public function balance2($id) //в id  название склада.
+    public function balance2(Request $request, $id) //в id  название склада.
     {
         $jurnals_id = Jurnal::where('sklad', $id)-> lists('id'); //все номера операции по этому складу.
         $detals = Detal::whereIn('jurnal_id',$jurnals_id)->get(); //товары сортированные по складу.
-       // $detals = DB::table('detals')->whereIn('jurnal_id', $jurnals_id)->get();
-
-        /*return view('site.jurnals.test',
-            [
-                'detals' => $detals,
-            ]);*/
-
-
 
         $list = array();
         foreach ($detals as $row) {
@@ -504,15 +511,30 @@ class JurnalsController extends Controller
             }
         }
 
+        /*------------ Pagination array ---------------*/
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($detals);
+        // Define how many items we want to be visible in each page
+        $perPage = 12;
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection ->slice(($currentPage * $perPage)- $perPage, $perPage) ->all();
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+        // set url path for generted links
+        $paginatedItems->setPath($request->url());
+
         $sort2 = 1; //сортировка по складу включена.
         $sklads = Sklad::all()-> sortBy('title');
 
         return view('site.jurnals.balance',
             [
-                'detals' => $detals,
+                'detals' => $paginatedItems,
                 'sort2' => $sort2,
                 'sklads' => $sklads,
                 'select_sklad' => $id,
+
             ]);
 
 
