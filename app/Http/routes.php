@@ -83,7 +83,12 @@ Route::get('/discard', 'JurnalsController@discard'); //Брак.
 Route::get('/del/{id}', 'JurnalsController@del'); //удаление товара.
 Route::delete('/deljur/{id}', 'JurnalsController@deljur'); //удаление записи из журнала.
 Route::get('/order', 'JurnalsController@order'); //провести операцию.
-Route::post('/filter', 'JurnalsController@filter'); //Применить фильтр.
+
+Route::post('/filter', 'JurnalsController@filter'); //применить фильтр.
+Route::get('/clear', 'JurnalsController@clear'); //сбросить фильтр.
+
+Route::post('/report', 'JurnalsController@report'); //вывести отчёт.
+Route::post('/excel', 'JurnalsController@excel'); //вывести отчёт в Exel.
 
 Route::get('/test', 'JurnalsController@test'); //тестовая страница.
-Route::get('/clear', 'JurnalsController@clear'); //бросить фильтр.
+

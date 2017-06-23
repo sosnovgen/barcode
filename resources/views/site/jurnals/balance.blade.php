@@ -54,11 +54,13 @@
                 <tbody>
                 @foreach ($detals as $row)
                     <tr>
-                        <td>{{$row['article_id']}}</td>
-                        <td>{{$row['title']}}</td>
-                        <td>{{$row['sklad']}}</td>
-                        <td>{{$row['cena']}}</td>
-                        <td>{{$row['kol']}}</td>
+                        @if($row['kol']<>0)
+                            <td>{{$row['article_id']}}</td>
+                            <td>{{$row['title']}}</td>
+                            <td>{{$row['sklad']}}</td>
+                            <td>{{$row['cena']}}</td>
+                            <td>{{$row['kol']}}</td>
+                        @endif
 
                     </tr>
                 @endforeach

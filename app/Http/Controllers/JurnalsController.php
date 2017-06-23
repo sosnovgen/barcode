@@ -7,6 +7,7 @@ use App\Contragent;
 use App\Detal;
 use App\Operation;
 use App\Sklad;
+use App\User;
 use Illuminate\Http\Request;
 use App\Jurnal;
 use Session;
@@ -15,6 +16,7 @@ use Auth;
 use Cookie;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests;
+use Excel;
 
 class JurnalsController extends Controller
 {
@@ -381,7 +383,7 @@ class JurnalsController extends Controller
         
     }
 
-    //Вывод спискатоваров в операции.
+    //Вывод списка товаров в операции.
     public function detals($id) //в id - номер операции в журнале
     {
         $products = Detal::where('jurnal_id', $id)-> get();
@@ -413,7 +415,7 @@ class JurnalsController extends Controller
 
         $detals = array();
         foreach ($list as $row){
-            //если массив пустой - добавить полностью.
+          //если массив пустой - добавить полностью.
            if(!count($detals)>0)
            {
                 $row['kol'] = $row['kol'] * $row['priznak'] * (-1);
@@ -536,8 +538,159 @@ class JurnalsController extends Controller
                 'select_sklad' => $id,
 
             ]);
+    }
 
+
+    /*------------- Отчёт -----------------*/
+    public function report(Request $request)
+    {
+        $sklad = $request ->input("sklad");
+        $operation = $request ->input("operation");
+
+        $str_date = $request ->input("date_3");     //получить строку из запроса.
+        $date = date_create($str_date.' 00:00:00'); //создать датую
+        $date = date_format($date,"Y-m-d H:i:s");   //вывести в нужном формате.
+        $date_start = date($date, time());          //начало периода
+
+        $str_date = $request ->input("date_2");
+        $date = date_create($str_date.' 23:59:59');
+        $date = date_format($date,"Y-m-d H:i:s");
+        $date_end = date($date, time());            //конец периода
+
+        $request->session()->put('report.sklad', $sklad);
+        $request->session()->put('report.operation', $operation);
+        $request->session()->put('report.date_start', $date_start);
+        $request->session()->put('report.date_end', $date_end);
+
+        if($sklad == 0){
+            $sign4 = '<>';
+            $value4 = 'unknows'; //Все.
+        } else {
+            $sign4 = '=';
+            $value4 = Sklad::find($sklad)->title;
+        }
+
+        if($operation == 0){
+            $sign5 = '<>';
+            $value5 = 'unknows'; //Все.
+        } else {
+            $sign5 = '=';
+            $value5 = Operation::find($operation)->title;
+        }
+
+        /*-----------------  фильтрация ------------------*/
+        $jurnals_id = Jurnal::where('sklad',$sign4 ,$value4)
+            -> where('operation',$sign5 ,$value5)
+            -> whereBetween('created_at', [$date_start, $date_end])
+            -> orderBy('created_at','DESC')
+            -> lists('id'); //отобранные номера операции;
+        
+        $detals = Detal::whereIn('jurnal_id',$jurnals_id)->get(); //товары по отобранным операциям.
+                
+        
+        
+        return view('site.jurnals.test',
+            ['detals' => $detals,
+                /*'links' => $links,*/
+            ]);
+    }
+
+    /*------------- Сохранить в Excel -----------------*/
+    public function excel(Request $request)
+    {
+        $user = $request ->input("user");
+        $contragent = $request ->input("contragent");
+        $sklad = $request ->input("sklad");
+        $operation = $request ->input("operation");
+
+        $str_date = $request ->input("date_5");     //получить строку из запроса.
+        $date = date_create($str_date.' 00:00:00'); //создать датую
+        $date = date_format($date,"Y-m-d H:i:s");   //вывести в нужном формате.
+        $date_start = date($date, time());          //начало периода
+
+        $str_date = $request ->input("date_6");
+        $date = date_create($str_date.' 23:59:59');
+        $date = date_format($date,"Y-m-d H:i:s");
+        $date_end = date($date, time());            //конец периода
+
+        $request->session()->put('excel.user', $user);
+        $request->session()->put('excel.contragent', $contragent);
+        $request->session()->put('excel.sklad', $sklad);
+        $request->session()->put('excel.operation', $operation);
+        $request->session()->put('excel.date_start', $date_start);
+        $request->session()->put('excel.date_end', $date_end);
+
+        if($user == 0){
+            $sign6 = '<>';
+            $value6 = 'unknows'; //Все.
+        } else {
+            $sign6 = '=';
+            $value6 = User::find($user)->name;
+        }
+
+        if($contragent == 0){
+            $sign7 = '<>';
+            $value7 = 'unknows'; //Все.
+        } else {
+            $sign7 = '=';
+            $value7 = Contragent::find($contragent)->title;
+        }
+
+        if($sklad == 0){
+            $sign8 = '<>';
+            $value8 = 'unknows'; //Все.
+        } else {
+            $sign8 = '=';
+            $value8 = Sklad::find($sklad)->title;
+        }
+
+        if($operation == 0){
+            $sign9 = '<>';
+            $value9 = 'unknows'; //Все.
+        } else {
+            $sign9 = '=';
+            $value9 = Operation::find($operation)->title;
+        }
+
+        /*-----------------  фильтрация ------------------*/
+        $jurnals_id = Jurnal::where('contragent',$sign7 ,$value7)
+            -> where('user',$sign6 ,$value6)
+            -> where('sklad',$sign8 ,$value8)
+            -> where('operation',$sign9 ,$value9)
+            -> whereBetween('created_at', [$date_start, $date_end])
+            -> orderBy('created_at','DESC')
+            -> lists('id'); //отобранные номера операции;
+        $detals = Detal::whereIn('jurnal_id',$jurnals_id)->get(); //товары сортированные по складу.
+
+        $sheetArray = array();
+        foreach ($detals as $row) {
+
+            $item['created_at']= $row->jurnal->created_at;
+            $item['id']= $row->article_id;
+            $item['title']= $row->title;
+            $item['operation']= $row->jurnal->operation;
+            $item['sklad']= $row->jurnal->sklad;
+            $item['contragent']= $row->jurnal->contragent;
+            $item['user']= $row->jurnal->user;
+            $item['cena']= $row->cena;
+            $item['kol']= $row->kol;
+            $item['priznak']= $row->jurnal->priznak;
+            $sheetArray[] = $item;
+        }
+
+        Excel::create('fifa', function($excel) use($sheetArray){
+
+            $excel->setTitle('Report');
+            $excel->setCreator('Laravel')->setCompany('Pomidor');
+            $excel->setDescription('payments file');
+
+            // Build the spreadsheet, passing in the payments array
+            $excel->sheet('лист1', function($sheet) use($sheetArray){
+                $sheet->with($sheetArray);
+            });
+        })->export('xls');
 
     }
+
 
 }

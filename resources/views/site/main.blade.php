@@ -70,6 +70,8 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{action('JurnalsController@index')}}"><i class="fa fa-list" aria-hidden="true"> Журнал </i></a></li>
                         <li><a href="{{action('JurnalsController@balance')}}"><i class="fa fa-balance-scale" aria-hidden="true"> Наличие </i></a></li>
+                        <li><a href="{{action('JurnalsController@balance')}}"><i class="fa fa-calculator" aria-hidden="true"> Отчёты </i></a></li>
+
                     </ul>
                 </li>
 
