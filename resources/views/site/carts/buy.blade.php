@@ -43,7 +43,13 @@
                 @if(Session::has('message'))
                     <div class="alert alert-info in">
                         <a href="#" class="close" data-dismiss="alert">&times;</a>
-                        <strong>Success!</strong> {{Session::get('message')}}.
+                        <strong>Success!</strong> {{Session::get('message')}}
+                    </div>
+                @endif
+                @if(Session::has('counter'))
+                    <div class="alert alert-warning">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        <strong>Alert!</strong> {{Session::get('counter')}}
                     </div>
                 @endif
 

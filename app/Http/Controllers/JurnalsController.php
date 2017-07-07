@@ -18,6 +18,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests;
 use Excel;
 
+
 class JurnalsController extends Controller
 {
     public function index()
@@ -230,7 +231,7 @@ class JurnalsController extends Controller
 
 
     //провести операцию.
-    public function order()
+    public function order(Request $request)
     {
       if (Session::has('sale')) //Есть массив 'sale'?
         {
@@ -280,10 +281,14 @@ class JurnalsController extends Controller
                 Session::forget('sale'); //удалить переменную 'sale'.
                // Session::flush(); //полностью очистить сессию.
                 Session::flash('message', 'Успешно!');
+
+                return redirect()->action('JurnalsController@detals', ['id' => $jur2]);
             }
         }
-
-        return redirect()->action('JurnalsController@detals', ['id' => $jur2]);
+        else{
+            $request->session()->flash('counter', 'Ничего не выбрано!');
+            return redirect('/buy');
+        }
     }
 
 //-------------------------------------------------------
@@ -387,12 +392,11 @@ class JurnalsController extends Controller
     public function detals($id) //в id - номер операции в журнале
     {
         $products = Detal::where('jurnal_id', $id)-> get();
-        $jurnal = Jurnal::find($id);
+
         return view('site.jurnals.detals',
-           [ 
-            'products' => $products,  
-            'jurnal' => $jurnal,
-        ]);
+            [
+              'products' => $products,
+            ]);
 
     }
 
@@ -692,5 +696,7 @@ class JurnalsController extends Controller
 
     }
 
+ 
 
 }
+

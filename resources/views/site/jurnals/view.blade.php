@@ -29,6 +29,7 @@
             <table class="table table-condensed table-striped" id="token-keeper5" data-token="{{ csrf_token() }}">
                 <thead>
                 <tr class="leaf">
+                    <th>№</th>
                     <th class="td-1">Дата</th>
                     <th>Контрагент</th>
                     <th>Точка</th>
@@ -41,6 +42,7 @@
                 <tbody>
                 @foreach ($jurnals as $row)
                     <tr>
+                        <td>{{$row->id}}</td>
                         <td class="td-1" style="width: 8em;">{{$row->created_at ->format('d-M H:i')}}</td>
 
                         {{--<td class="td-2">{{$row->title}}</td>--}}

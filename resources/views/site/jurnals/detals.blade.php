@@ -4,7 +4,7 @@
         <div class="col-md-7">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="cap_011">Накладная № {{$jurnal -> id}}</div>
+                        <div class="cap_011">Накладная № {{$products->first()->jurnal -> id}}</div>
                     </div>
                     <div class="col-md-6">
                         <div class="arrow_detals pull-right">
@@ -17,20 +17,20 @@
 
                     <div class="col-md-3">
                         <label>Дата создания</label>
-                        <label class="form-control text24">{{$jurnal -> created_at -> Format('d-m-Y')}}</label>
+                        <label class="form-control text24">{{$products->first()->jurnal -> created_at -> Format('d-m-Y')}}</label>
                     </div>
                     <div class="col-md-3">
                         <label>Операция</label>
-                        <label class="form-control text24">{{$jurnal -> operation}}</label>
+                        <label class="form-control text24">{{$products->first()->jurnal -> operation}}</label>
                     </div>
 
                     <div class="col-md-3">
                         <label>Контрагент</label>
-                        <label class="form-control text24">{{$jurnal -> contragent}}</label>
+                        <label class="form-control text24">{{$products->first()->jurnal -> contragent}}</label>
                     </div>
                     <div class="col-md-3">
                         <label>Точка</label>
-                        <input type="text" name="created_at" value = "{{$jurnal ->sklad}}" class="form-control">
+                        <input type="text" name="created_at" value = "{{$products->first()->jurnal ->sklad}}" class="form-control">
                     </div>
 
                 </div>
@@ -60,9 +60,8 @@
                     </tbody>
                 </table>
 
-                <div class="text25">Сумма: <span class ="text26">{{$jurnal -> sum}}</span></div>
+                <div class="text25">Сумма: <span class ="text26">{{$products->first()->jurnal -> sum}}</span></div>
                 <br><br><br>
-
 
         </div>
 

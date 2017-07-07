@@ -193,3 +193,57 @@ th {
     width: 2.5em;
     padding: 5px 0px 5px 12px;
 }
+
+/*  Start page   */
+.tile-page-content {
+    -webkit-box-flex: 1;
+    /*-webkit-mask-clip: content-box;*/
+    box-sizing: border-box;
+    overflow-y: scroll;
+    padding-left: 93px;
+    padding-right: 80px;
+    padding-top: 60px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+.top-margin {
+    height: 1px;
+}
+.tile-grid {
+    position: relative;
+    width: 100%;
+}
+.animating-tile-page .tile, .tile.drag-representation.placing {
+    transition: left 200ms, right 200ms, top 200ms;
+}
+
+.tile:not(.doppleganger) {
+    font-size: 1.2em;
+}
+
+.tile {
+    -webkit-print-color-adjust: exact;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: element;
+    display: inline-block;
+    position: absolute;
+}
+
+.app {
+    outline: none;
+    position: absolute;
+    text-align: center;
+}
+.app-contents {
+    transition: transform 100ms;
+}
+
+.launch-click-target {
+    cursor: pointer;
+}
+.app-img-container {
+    -webkit-mask-size: 100% 100%;
+    margin-left: auto;
+    margin-right: auto;
+}

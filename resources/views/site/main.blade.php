@@ -39,7 +39,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="{{asset('/')}}">Home</a></li>
                 <li class="active"><a href="{{action('JurnalsController@test')}}">Test</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-database" aria-hidden="true"> БД </i><span class="caret"></span></a>
