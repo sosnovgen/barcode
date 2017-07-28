@@ -195,55 +195,33 @@ th {
 }
 
 /*  Start page   */
-.tile-page-content {
-    -webkit-box-flex: 1;
-    /*-webkit-mask-clip: content-box;*/
-    box-sizing: border-box;
-    overflow-y: scroll;
-    padding-left: 93px;
-    padding-right: 80px;
-    padding-top: 60px;
-    position: relative;
-    text-align: center;
-    width: 100%;
+
+.my-flex-container{
+    display: flex;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+    align-content:flex-start;
 }
-.top-margin {
-    height: 1px;
+.my-flex-block{
+    margin: 42px 22px;
+
 }
-.tile-grid {
-    position: relative;
-    width: 100%;
-}
-.animating-tile-page .tile, .tile.drag-representation.placing {
-    transition: left 200ms, right 200ms, top 200ms;
+.my-flex-block img {
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
 }
 
-.tile:not(.doppleganger) {
-    font-size: 1.2em;
+.my-flex-block img:active{
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
 }
-
-.tile {
-    -webkit-print-color-adjust: exact;
-    -webkit-touch-callout: none;
-    -webkit-user-drag: element;
-    display: inline-block;
-    position: absolute;
+figure{
+    width: 80px;
+    height: auto;
 }
-
-.app {
-    outline: none;
-    position: absolute;
-    text-align: center;
-}
-.app-contents {
-    transition: transform 100ms;
-}
-
-.launch-click-target {
-    cursor: pointer;
-}
-.app-img-container {
-    -webkit-mask-size: 100% 100%;
-    margin-left: auto;
-    margin-right: auto;
+figcaption {
+    text-align: center; /* Выравниваем по центру */
+    word-wrap: break-word; /* Перенос слов */
 }
